@@ -1,4 +1,8 @@
 <template>
+<button class="text-end btn btn-primary"
+ type="button"
+ @click.prevent="$refs.productsModal.showModal()">新增產品
+</button>
 <table class="table mt-4">
   <thead>
     <tr>
@@ -33,15 +37,21 @@
     </tr>
   </tbody>
 </table>
+<ProductsModal ref="productsModal"></ProductsModal>
 </template>
 
 <script>
+import ProductsModal from '../components/ProductsModal.vue';
+
 export default {
   data() {
     return {
       products: [],
       pagination: {},
     };
+  },
+  components: {
+    ProductsModal,
   },
   methods: {
     getProducts() {
