@@ -1,10 +1,5 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link> |
-    <router-link to="/login">Login</router-link>
-  </div>
-  <div class="container">
+  <div class="container-0">
     <router-view/>
   </div>
 </template>

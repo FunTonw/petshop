@@ -60,10 +60,12 @@ export default {
       const api = `${process.env.VUE_APP_API}admin/signin`;
       this.$http.post(api, this.user)
         .then((res) => {
-          const { token, expired } = res.data;
-          console.log(token, expired);
-          document.cookie = `hexToken=${token};
-          expired=${new Date(expired)}`;
+          if (res.data.success) {
+            const { token, expired } = res.data;
+            document.cookie = `hexToken=${token};
+            expired=${new Date(expired)}`;
+            this.$router.push('/deshboard/products');
+          }
         });
     },
   },
