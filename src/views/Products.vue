@@ -1,7 +1,7 @@
 <template>
 <button class="text-end btn btn-primary"
  type="button"
- @click.prevent="$refs.productsModal.showModal()">新增產品
+ @click.prevent="openModal(true)">新增產品
 </button>
 <table class="table mt-4">
   <thead>
@@ -30,14 +30,18 @@
       </td>
       <td>
         <div class="btn-group">
-          <button class="btn btn-outline-primary btn-sm">編輯</button>
+          <button class="btn btn-outline-primary btn-sm"
+          @click='openModal(false, item)'>編輯</button>
           <button class="btn btn-outline-danger btn-sm">刪除</button>
         </div>
       </td>
     </tr>
   </tbody>
 </table>
-<ProductsModal ref="productsModal"></ProductsModal>
+<ProductsModal
+ ref="productsModal"
+ :product="tempProduct"
+ @update-product="updateProduct"></ProductsModal>
 </template>
 
 <script>
@@ -48,6 +52,8 @@ export default {
     return {
       products: [],
       pagination: {},
+      tempProduct: {},
+      isNew: false,
     };
   },
   components: {
@@ -62,6 +68,32 @@ export default {
             this.products = res.data.products;
             this.pagination = res.data.pagination;
           }
+        });
+    },
+    openModal(isNew, item) {
+      if (isNew) {
+        this.tempProduct = {};
+      } else {
+        this.tempProduct = { ...item };
+      }
+      this.$refs.productsModal.showModal();
+    },
+    updateProduct(item) {
+      this.tempProduct = item;
+      // 新增
+      let api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product`;
+      let httpMethod = 'post';
+      // 編輯
+      if (!this.isNew) {
+        api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product/${item.id}`;
+        httpMethod = 'put';
+      }
+      const productComponent = this.$refs.productsModal;
+      this.$http[httpMethod](api, { data: this.tempProduct })
+        .then((res) => {
+          console.log(res);
+          productComponent.hideModal();
+          this.getProducts();
         });
     },
   },
