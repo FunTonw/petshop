@@ -68,6 +68,7 @@ export default {
     ProductsModal,
     DelModal,
   },
+  inject: ['emitter'],
   methods: {
     getProducts() {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/products`;
@@ -95,22 +96,33 @@ export default {
       // 新增
       let api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product`;
       let httpMethod = 'post';
-      console.log('post');
       // 編輯
       if (!this.isNew) {
         api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product/${item.id}`;
         httpMethod = 'put';
-        console.log('put');
       }
       const productComponent = this.$refs.productsModal;
       this.isLoading = true;
       this.$http[httpMethod](api, { data: this.tempProduct })
-        .then(() => {
+        .then((res) => {
           this.isLoading = false;
           productComponent.hideModal();
-          this.getProducts();
+          if (res.data.success) {
+            this.getProducts();
+            this.emitter.emit('push-message', {
+              style: 'success',
+              title: '更新成功',
+            });
+          } else {
+            this.emitter.emit('push-message', {
+              style: 'danger',
+              title: '更新失敗',
+              content: res.data.message.join('、'),
+            });
+          }
         });
     },
+    // 刪除
     openDelModal(item) {
       this.tempProduct = { ...item };
       this.$refs.delModal.showModal();
@@ -119,9 +131,20 @@ export default {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product/${this.tempProduct.id}`;
       this.$http.delete(api)
         .then((res) => {
-          console.log(res.data);
           this.$refs.delModal.hideModal();
-          this.getProducts();
+          if (res.data.success) {
+            this.getProducts();
+            this.emitter.emit('push-message', {
+              style: 'success',
+              title: '刪除成功',
+            });
+          } else {
+            this.emitter.emit('push-message', {
+              style: 'danger',
+              title: '刪除失敗',
+              content: res.data.message,
+            });
+          }
         });
     },
   },

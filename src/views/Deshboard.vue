@@ -1,16 +1,25 @@
 <template>
     <Navbar></Navbar>
+    <ToastMessages />
     <div class="container-fluid">
       <router-view/>
     </div>
 </template>
 
 <script>
+import emitter from '@/methods/emitter';
 import Navbar from '../components/Navbar.vue';
+import ToastMessages from '../components/ToastMessages.vue';
 
 export default ({
   components: {
     Navbar,
+    ToastMessages,
+  },
+  provide() {
+    return {
+      emitter,
+    };
   },
   created() {
     const token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/, '$1');
