@@ -1,4 +1,5 @@
 <template>
+      <Loading :active="isLoading"></Loading>
       <div class="loginbox border border-1 rounded rounded-4 py-3">
         <form @submit.prevent="signIn">
           <div class="d-flex flex-column align-items-center justify-content-center">
@@ -52,14 +53,17 @@ export default {
       user: {
         username: '',
         password: '',
+        isLoading: false,
       },
     };
   },
   methods: {
     signIn() {
       const api = `${process.env.VUE_APP_API}admin/signin`;
+      this.isLoading = true;
       this.$http.post(api, this.user)
         .then((res) => {
+          this.isLoading = false;
           if (res.data.success) {
             const { token, expired } = res.data;
             document.cookie = `hexToken=${token};
