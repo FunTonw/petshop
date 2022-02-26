@@ -79,9 +79,11 @@ export default {
       this.$http.get(api)
         .then((res) => {
           this.isLoading = false;
+          console.log(api);
           if (res.data.success) {
             this.products = res.data.products;
             this.pagination = res.data.pagination;
+          }
         });
     },
     openModal(isNew, item) {

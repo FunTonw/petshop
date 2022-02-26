@@ -15,10 +15,17 @@
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <router-link
+          to="/deshboard/products"
+          class="nav-link active"
+          aria-current="page"
+          href="#">產品</router-link>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Features</a>
+          <router-link
+          class="nav-link"
+          href="#"
+          to="/deshboard/coupon">優惠卷</router-link>
         </li>
         <li class="nav-item">
           <a class="nav-link" @click.prevent="logout">登出</a>
