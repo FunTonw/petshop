@@ -37,7 +37,24 @@
                       <div class="card">
                         <img src="" class="card-img-top madel" alt="">
                         <div class="card-body p-3">
-                          <b class="card-title">{{ item.title }}</b>
+                          <div class="d-flex align-items-center card-title">
+                            <b>{{ item.title }}</b>
+                            <button
+                            class="btn btn-outline-danger p-0 px-1 ms-auto"
+                            type="button"
+                            @click.prevent.stop="addCart(item.id)"
+                            :disabled="this.status.loadingItem === item.id">
+                              <div
+                              class="spinner-border text-danger spinner-border-sm"
+                              role="status"
+                              v-if="this.status.loadingItem === item.id">
+                                <span class="visually-hidden">Loading...</span>
+                              </div>
+                              <span v-else>
+                                <i class="bi bi-cart4"></i>
+                              </span>
+                             </button>
+                          </div>
                           <div class="d-flex justify-content-between align-items-center">
                             <p class="origin-price fw-light mb-0">{{ item.origin_price }}</p>
                             <p class="price fw-bold mb-0">${{ item.price }}</p>
@@ -79,6 +96,9 @@ export default {
       products: [],
       pagination: {},
       listProducts: [],
+      status: {
+        loadingItem: '',
+      },
     };
   },
   methods: {
@@ -94,6 +114,19 @@ export default {
     },
     productList(category) {
       this.listProducts = (category === 'all' ? this.products : this.products.filter((x) => x.category === category));
+    },
+    addCart(id, count = 1) {
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`;
+      this.status.loadingItem = id;
+      const cart = {
+        product_id: id,
+        qty: count,
+      };
+      this.$http.post(api, { data: cart })
+        .then((res) => {
+          this.status.loadingItem = '';
+          console.log(res.data);
+        });
     },
   },
   created() {
