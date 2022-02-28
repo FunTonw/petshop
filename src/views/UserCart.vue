@@ -42,7 +42,7 @@
                             <button
                             class="btn btn-outline-danger p-0 px-1 ms-auto"
                             type="button"
-                            @click.prevent.stop="addCart(item.id)"
+                            @click.prevent.stop="addCart(item.id, true)"
                             :disabled="this.status.loadingItem === item.id">
                               <div
                               class="spinner-border text-danger spinner-border-sm"
@@ -67,6 +67,62 @@
           </div>
       </div>
   </div>
+    <div class="cart_group">
+    <button
+      class="btn btn-outline-info rounded-pill fs-2"
+      @click.prevent="showCart()">
+      <i class="bi bi-cart4"></i>
+    </button>
+    <div class="p-3" v-if="cartActive">
+      <table class="table align-middle caption-top">
+        <thead>
+          <tr>
+            <th class="col-1"></th>
+            <th class="col">項目</th>
+            <th class="col-2">數量</th>
+            <th class="col-3">單價</th>
+          </tr>
+        </thead>
+        <tbody v-for="item in cartProducts.carts" :key="item.id">
+          <tr>
+            <td>
+              <button class="btn p-0" @click.prevent="delCart(item.id)">
+               <i class="bi bi-x-circle"></i>
+              </button>
+            </td>
+            <td>{{item.product.title}}</td>
+            <td align="rigth">
+              <input
+              type="number"
+              class="form-control form-control-sm p-1"
+              id="count"
+              min="1"
+              @change="addCart(item.id, false, item.qty)"
+              :disabled="item.id === status.loadingItem"
+              v-model.number="item.qty">
+            </td>
+            <td>{{ item.final_total }}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="2">
+              <input class="form-control form-control-sm p-1" type="text">
+            </td>
+            <td colspan="2" class="text-danger">使用優惠眷</td>
+          </tr>
+          <tr>
+            <td colspan="3" align="right">原價：</td>
+            <td colspan="1">{{ cartProducts.total }}</td>
+          </tr>
+          <tr>
+            <td colspan="3" align="right">總金額：</td>
+            <td colspan="1">{{ cartProducts.final_total }}</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
 </template>
 <style>
   .origin-price {
@@ -87,6 +143,22 @@
   .list > li > a:hover{
     color: black;
   }
+  /* 購物車 */
+  .cart_group > button {
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+  }
+  .cart_group > div {
+    position: fixed;
+    right: 50px;
+    bottom: 90px;
+    box-shadow: -3px 3px 4px rgba(255, 116, 24, 0.082);
+    background-color: #fff;
+  }
+  .cart_group > div > table {
+    width: 500px;
+  }
 </style>
 
 <script>
@@ -96,6 +168,8 @@ export default {
       products: [],
       pagination: {},
       listProducts: [],
+      cartProducts: [],
+      cartActive: false,
       status: {
         loadingItem: '',
       },
@@ -109,28 +183,55 @@ export default {
         this.listProducts = this.products;
       });
     },
+    getCart() {
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`;
+      this.$http.get(api)
+        .then((res) => {
+          this.cartProducts = res.data.data;
+          console.log(this.cartProducts);
+        });
+    },
     goProduct(id) {
       this.$router.push(`product/${id}`);
     },
     productList(category) {
       this.listProducts = (category === 'all' ? this.products : this.products.filter((x) => x.category === category));
     },
-    addCart(id, count = 1) {
-      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`;
+    addCart(id, isNew, count = 1) {
+      // 新增購物車
+      let cartMethods = 'post';
+      let api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`;
+      // 編輯購物車
+      if (!isNew) {
+        cartMethods = 'put';
+        api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart/${id}`;
+      }
       this.status.loadingItem = id;
       const cart = {
         product_id: id,
         qty: count,
       };
-      this.$http.post(api, { data: cart })
-        .then((res) => {
+      this.$http[cartMethods](api, { data: cart })
+        .then(() => {
           this.status.loadingItem = '';
+          this.getCart();
+        });
+    },
+    delCart(id) {
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart/${id}`;
+      this.$http.delete(api)
+        .then((res) => {
+          this.getCart();
           console.log(res.data);
         });
+    },
+    showCart() {
+      this.cartActive = !this.cartActive;
     },
   },
   created() {
     this.getProduct();
+    this.getCart();
   },
 };
 </script>
