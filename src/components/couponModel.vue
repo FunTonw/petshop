@@ -42,7 +42,7 @@
               <input class="form-check-input" type="checkbox"
                       :true-value="1"
                       :false-value="0"
-                      v-model="couponItem.is_enabled"
+                      v-model.number="couponItem.is_enabled"
                       id="is_enabled">
               <label class="form-check-label" for="is_enabled">
                 是否啟用
@@ -75,7 +75,7 @@ import modalMixin from '@/mixin/ModalMixin';
 export default {
   data() {
     return {
-      changTime: '',
+      // changTime: '',
       couponItem: {},
     };
   },
@@ -91,12 +91,23 @@ export default {
       default() { return {}; },
     },
   },
-  watch: {
-    changTime() {
-      this.couponItem.due_date = new Date(this.changTime).getTime();
+  computed: {
+    changTime: {
+      get() {
+        if (!this.couponItem.due_date) {
+          return '0000-00-00';
+        }
+        return new Date(this.couponItem.due_date).toISOString().slice(0, 10);
+      },
+      set(val) {
+        console.log(val);
+        this.couponItem.due_date = new Date(val).getTime();
+      },
     },
-    couponItem() {
-      this.couponItem.due_date = new Date(this.changTime) / 1000;
+  },
+  watch: {
+    coupon() {
+      this.couponItem = this.coupon;
     },
   },
 };

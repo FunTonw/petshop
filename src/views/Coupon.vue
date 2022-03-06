@@ -2,8 +2,9 @@
 <CouponModel
  ref="couponModel"
  @emitCoupon="addCoupon"
+ :coupon="couponsItem"
  />
-<button class="btn btn-danger" @click.prevent="openModal()">新增優惠卷</button>
+<button class="btn btn-danger" @click.prevent="openModal(true)">新增優惠卷</button>
 <table class="table mt-4">
   <thead>
     <tr>
@@ -27,13 +28,16 @@
       </td>
       <td>
         <span class="text-success"
-        v-if="item.is_enabled = '1'">啟用</span>
+        v-if="item.is_enabled = 1">啟用</span>
         <span class="text-success"
         v-else>不啟用</span>
       </td>
       <td>
         <div class="btn-group">
-          <button class="btn btn-outline-primary btn-sm">編輯</button>
+          <button
+          class="btn btn-outline-primary btn-sm"
+          @click.prevent="openModal(false,item)"
+          >編輯</button>
           <button class="btn btn-outline-danger btn-sm">刪除</button>
         </div>
       </td>
@@ -46,10 +50,12 @@
 import CouponModel from '../components/couponModel.vue';
 
 export default {
+  inject: ['emitter'],
   data() {
     return {
       coupons: {},
       couponsItem: {},
+      isNew: false,
     };
   },
   methods: {
@@ -58,29 +64,39 @@ export default {
       this.$http.get(api)
         .then((res) => {
           this.coupons = res.data;
-          console.log(this.coupons);
         });
     },
-    openModal() {
+    openModal(isNew, item) {
+      this.isNew = isNew;
+      if (!this.isNew) {
+        this.couponsItem = item;
+        console.log(this.couponsItem);
+      } else {
+        this.couponsItem = {};
+      }
       this.$refs.couponModel.showModal();
     },
     addCoupon(item) {
-      this.couponsItem = { ...item };
       this.$refs.couponModel.hideModal();
-      console.log(this.couponsItem);
-      console.log('sendOK');
+      // 新增
+      let api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/coupon`;
+      let couponMethods = 'post';
+      // 編輯
+      if (!this.isNew) {
+        api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/coupon/${item.id}`;
+        couponMethods = 'put';
+      }
       // api
-      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/coupon`;
-      // const couponMethods = 'post';
-      this.$http.post(api, { data: this.couponsItem })
+      this.$http[couponMethods](api, { data: this.couponsItem })
         .then((res) => {
           console.log(res.data);
+          console.log(res.data.message);
           this.getCoupons();
         });
     },
     cangeTime(time) {
       const date = new Date(time);
-      return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+      return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
     },
   },
   created() {
