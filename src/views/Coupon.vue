@@ -1,9 +1,4 @@
 <template>
-<CouponModel
- ref="couponModel"
- @emitCoupon="addCoupon"
- :coupon="couponsItem"
- />
 <button class="btn btn-danger" @click.prevent="openModal(true)">新增優惠卷</button>
 <table class="table mt-4">
   <thead>
@@ -38,16 +33,32 @@
           class="btn btn-outline-primary btn-sm"
           @click.prevent="openModal(false,item)"
           >編輯</button>
-          <button class="btn btn-outline-danger btn-sm">刪除</button>
+          <button
+          class="btn btn-outline-danger btn-sm"
+          @click="OpenDelCoupon(item)">刪除</button>
         </div>
       </td>
     </tr>
   </tbody>
 </table>
+<PaginationVue
+  :pages="pagination"
+  @emit-pages="getCoupons"/>
+<CouponModel
+ ref="couponModel"
+ @emitCoupon="addCoupon"
+ :coupon="couponsItem"
+ />
+ <DelModal
+ ref="delModal"
+ :product="couponsItem"
+ @del-item="delCoupon"/>
 </template>
 
 <script>
 import CouponModel from '../components/couponModel.vue';
+import DelModal from '../components/DelModal.vue';
+import PaginationVue from '../components/Pagination.vue';
 
 export default {
   inject: ['emitter'],
@@ -55,15 +66,17 @@ export default {
     return {
       coupons: {},
       couponsItem: {},
+      pagination: {},
       isNew: false,
     };
   },
   methods: {
-    getCoupons() {
-      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/coupons`;
+    getCoupons(page = 1) {
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/coupons/?page=${page}`;
       this.$http.get(api)
         .then((res) => {
           this.coupons = res.data;
+          this.pagination = res.data.pagination;
         });
     },
     openModal(isNew, item) {
@@ -89,19 +102,46 @@ export default {
       // api
       this.$http[couponMethods](api, { data: this.couponsItem })
         .then((res) => {
-          console.log(res.data);
-          console.log(res.data.message);
           this.getCoupons();
+          if (res.data.success) {
+            this.emitter.emit('push-message', {
+              style: 'success',
+              title: '更新成功',
+            });
+          } else {
+            this.emitter.emit('push-message', {
+              style: 'danger',
+              title: '更新失敗',
+              content: res.data.message.join('、'),
+            });
+          }
         });
     },
     cangeTime(time) {
       const date = new Date(time);
       return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
     },
+    OpenDelCoupon(item) {
+      this.couponsItem = { ...item };
+      this.$refs.delModal.showModal();
+    },
+    delCoupon() {
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/coupon/${this.couponsItem.id}`;
+      this.$http.delete(api)
+        .then((res) => {
+          console.log(res.data);
+          this.$refs.delModal.hideModal();
+          this.getCoupons();
+        });
+    },
   },
   created() {
     this.getCoupons();
   },
-  components: { CouponModel },
+  components: {
+    CouponModel,
+    DelModal,
+    PaginationVue,
+  },
 };
 </script>
