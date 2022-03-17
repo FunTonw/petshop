@@ -106,12 +106,6 @@
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="2">
-              <input class="form-control form-control-sm p-1" type="text">
-            </td>
-            <td colspan="2" class="text-danger">使用優惠眷</td>
-          </tr>
-          <tr>
             <td colspan="3" align="right">原價：</td>
             <td colspan="1">{{ cartProducts.total }}</td>
           </tr>
@@ -121,6 +115,18 @@
           </tr>
         </tfoot>
       </table>
+      <div class="input-group d-flex">
+        <input
+        class="form-control form-control-sm p-1"
+        type="text"
+        v-model="coupon_code"
+        placeholder="請填寫優惠卷碼">
+        <button
+        class="btn btn-outline-danger"
+        type="button"
+        @click="addCouponCode"
+        >使用優惠卷</button>
+      </div>
     </div>
   </div>
 </template>
@@ -173,6 +179,7 @@ export default {
       status: {
         loadingItem: '',
       },
+      coupon_code: '',
     };
   },
   methods: {
@@ -227,6 +234,17 @@ export default {
     },
     showCart() {
       this.cartActive = !this.cartActive;
+    },
+    addCouponCode() {
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/coupon`;
+      const coupon = {
+        code: this.coupon_code,
+      };
+      this.$http.post(api, { data: coupon })
+        .then((res) => {
+          console.log(res);
+          this.getCart();
+        });
     },
   },
   created() {
