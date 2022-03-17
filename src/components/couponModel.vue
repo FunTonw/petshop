@@ -95,12 +95,11 @@ export default {
     changTime: {
       get() {
         if (!this.couponItem.due_date) {
-          return '0000-00-00';
+          return new Date().toISOString().slice(0, 10);
         }
         return new Date(this.couponItem.due_date).toISOString().slice(0, 10);
       },
       set(val) {
-        console.log(val);
         this.couponItem.due_date = new Date(val).getTime();
       },
     },
