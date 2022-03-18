@@ -2,6 +2,9 @@
   "name": "petshop",
   "version": "0.1.0",
   "private": true,
+  "tags": [
+    "swiper"
+  ],
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -13,7 +16,9 @@
     "bootstrap-icons": "^1.8.1",
     "core-js": "^3.6.5",
     "mitt": "^3.0.0",
+    "swiper": "^6.8.4",
     "vue": "^3.0.0",
+    "vue-awesome-swiper": "^4.1.1",
     "vue-axios": "^3.4.1",
     "vue-router": "^4.0.0-0",
     "vue3-loading-overlay": "0.0.0"

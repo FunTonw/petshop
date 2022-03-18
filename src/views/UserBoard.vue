@@ -1,19 +1,45 @@
 <template>
-<nav class="navbar navbar-expand-lg nav-bg nav-text">
-  <div class="container-fluid  justify-content-center">
-    <span class="navbar-brand">用戶端範例</span>
-  </div>
-</nav>
+<Header/>
+<UserNavbar/>
+<Banner/>
 <router-view/>
 </template>
 <style>
-  .nav-bg {
-    background: rgb(226, 117, 45);
+  ul > li > a{
+    text-decoration: none;
   }
-  .nav-text {
-    color: rgb(255, 255, 255);
+  li{
+    list-style: none;
   }
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+}
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 </style>
 
 <script>
+import Header from '../components/Header.vue';
+import UserNavbar from '../components/UserNavbar.vue';
+import Banner from '../components/banner.vue';
+
+export default {
+  components: {
+    Header,
+    UserNavbar,
+    Banner,
+  },
+};
 </script>
