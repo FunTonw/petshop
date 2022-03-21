@@ -1,16 +1,20 @@
 <template>
   <div>
     <Banner/>
-    <p>MYHOME</p>
+    <div class="container">
+      <PromoItem/>
+    </div>
   </div>
 </template>
 
 <script>
-import Banner from '../components/banner.vue';
+import Banner from '../components/Banner.vue';
+import PromoItem from '../components/PromoItem.vue';
 
 export default {
   components: {
     Banner,
+    PromoItem,
   },
 };
 </script>
