@@ -230,6 +230,7 @@ export default {
   created() {
     this.getProduct();
     this.getCart();
+    console.log('OK');
   },
 };
 </script>

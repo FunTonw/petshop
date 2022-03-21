@@ -1,7 +1,6 @@
 <template>
 <Header/>
 <UserNavbar/>
-<Banner/>
 <router-view/>
 </template>
 <style>
@@ -33,13 +32,11 @@
 <script>
 import Header from '../components/Header.vue';
 import UserNavbar from '../components/UserNavbar.vue';
-import Banner from '../components/banner.vue';
 
 export default {
   components: {
     Header,
     UserNavbar,
-    Banner,
   },
 };
 </script>

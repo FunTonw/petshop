@@ -31,12 +31,11 @@
 import Carousel from 'bootstrap/js/dist/carousel';
 
 export default {
-  mounted() {
+  created() {
     const myCarousel = this.$refs.carousel;
-    const carousel = new Carousel(myCarousel, {
+    return new Carousel(myCarousel, {
       interval: 5000,
     });
-    carousel.show();
   },
 };
 </script>
