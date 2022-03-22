@@ -83,6 +83,7 @@ export default {
           if (res.data.success) {
             this.products = res.data.products;
             this.pagination = res.data.pagination;
+            console.log(this.products);
           }
         });
     },

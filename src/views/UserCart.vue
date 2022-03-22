@@ -15,7 +15,7 @@
                     <a href="#" @click.prevent="goProduct(item.id)"
                     style="text-decoration:none; color:#000">
                       <div class="card">
-                        <img src="" class="card-img-top madel" alt="">
+                        <img :src="item.imageUrl" class="card-img-top madel" alt="">
                         <div class="card-body p-3">
                           <div class="d-flex align-items-center card-title">
                             <b>{{ item.title }}</b>

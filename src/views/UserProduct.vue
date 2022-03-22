@@ -5,8 +5,8 @@
       <li class="breadcrumb-item active" aria-current="page">{{ item.title }}</li>
     </ol>
   </nav>
-  <div class="body d-flex justify-content-center align-items-center">
-    <img src="" alt="">
+  <div class="body d-flex flex-column justify-content-center align-items-center">
+    <img :src="item.imageUrl" alt="" class="w-50">
     <div class="warp">
       <h3>{{ item.title }}</h3>
       <p>{{ item.category }}</p>
@@ -74,7 +74,7 @@ export default {
     axios.get(api)
       .then((res) => {
         this.item = res.data.product;
-        console.log(this.item);
+        console.log(res.data.product);
       });
   },
 };
