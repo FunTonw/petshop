@@ -1,17 +1,18 @@
 <template>
   <div class="container">
-    <div>
       <h2>推薦商品</h2>
-    </div>
-    <ul class="d-flex justify-content-center fs-5 category-list text-decoration-none p-0">
+    <ul class="d-flex justify-content-center fs-5 category-list text-decoration-none p-0 mt-4">
       <li class="m-2">
-        <a href="#">CAKE</a>
+        <a href="#" @click.prevent="changeCategory('All')">ALL</a>
       </li>
       <li class="m-2">
-        <a href="#">BREAD</a>
+        <a href="#" @click.prevent="changeCategory('蛋糕')">CAKE</a>
       </li>
       <li class="m-2">
-        <a href="#">PIE</a>
+        <a href="#" @click.prevent="changeCategory('麵包')">BREAD</a>
+      </li>
+      <li class="m-2">
+        <a href="#" @click.prevent="changeCategory('派餅')">PIE</a>
       </li>
     </ul>
     <div>
@@ -19,12 +20,14 @@
         <div class="swiper-button-prev"></div>
         <div class="swiper-button-next"></div>
         <div class="swiper-wrapper">
-          <div class="swiper-slide">
-            <div class="card h-100">
-              <div class="card-group">
-                <a href="#" class="card-link">
-                  <img src="../assets/img/pexels-cats-coming-1543800.jpg" alt="">
-                </a>
+          <div class="swiper-slide" v-for="item, key in this.listCategory" :key="key">
+            <div class="card">
+                  <a href="#"
+                  class="card-link"
+                  style="height: 180px"
+                  @click.prevent="goProduct(item.id)">
+                    <img class="card-img-top" :src="item.imageUrl" :alt="item.title">
+                  </a>
                 <div class="card-body">
                   <div class="button-item">
                     <button class="btn m-1"><i class="bi bi-heart-fill"></i></button>
@@ -37,7 +40,7 @@
                   align-items-lg-center
                   justify-content-lg-between
                   m-0 mb-lg-2">
-                    <h6 class="m-0" style="font-weight: 600;">黑森林公爵</h6>
+                    <h6 class="m-0" style="font-weight: 600;">{{ item.title }}</h6>
                     <p class="m-0 text-warning fs-6">
                       <i class="bi bi-star-fill"></i>
                       <i class="bi bi-star-fill"></i>
@@ -53,8 +56,10 @@
                   justify-content-center justify-content-lg-between
                   align-items-center align-items-lg-end">
                     <div class="price d-flex">
-                      <p class="fs-6 m-0 me-1 text-decoration-line-through">$100</p>
-                      <p  class="m-0 fw-blod text-danger">$200</p>
+                      <p class="fs-6 m-0 me-1 text-decoration-line-through">
+                        {{ item.origin_price }}
+                      </p>
+                      <p  class="m-0 fw-blod text-danger">{{ item.price }}</p>
                     </div>
                     <div>
                       <button class="cart-btn btn fs-6 p-0 px-3">
@@ -63,124 +68,6 @@
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="card">
-              <a href="#">
-              <div class="card-group">
-                <img src="../assets/img/pexels-cats-coming-1543800.jpg" alt="">
-                <div class="card-body">
-                  <div class="card-title">title</div>
-                  <div class="card-text">內容</div>
-                </div>
-              </div>
-               </a>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="card">
-              <a href="#">
-              <div class="card-group">
-                <img src="../assets/img/pexels-cats-coming-1543800.jpg" alt="">
-                <div class="card-body">
-                  <div class="card-title">title</div>
-                  <div class="card-text">內容</div>
-                </div>
-              </div>
-               </a>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="card">
-              <a href="#">
-              <div class="card-group">
-                <img src="../assets/img/pexels-cats-coming-1543800.jpg" alt="">
-                <div class="card-body">
-                  <div class="card-title">title</div>
-                  <div class="card-text">內容</div>
-                </div>
-              </div>
-               </a>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="card">
-              <a href="#">
-              <div class="card-group">
-                <img src="../assets/img/pexels-cats-coming-1543800.jpg" alt="">
-                <div class="card-body">
-                  <div class="card-title">title</div>
-                  <div class="card-text">內容</div>
-                </div>
-              </div>
-               </a>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="card">
-              <a href="#">
-              <div class="card-group">
-                <img src="../assets/img/pexels-cats-coming-1543800.jpg" alt="">
-                <div class="card-body">
-                  <div class="card-title">title</div>
-                  <div class="card-text">內容</div>
-                </div>
-              </div>
-               </a>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="card">
-              <a href="#">
-              <div class="card-group">
-                <img src="../assets/img/pexels-cats-coming-1543800.jpg" alt="">
-                <div class="card-body">
-                  <div class="card-title">title</div>
-                  <div class="card-text">內容</div>
-                </div>
-              </div>
-               </a>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="card">
-              <a href="#">
-              <div class="card-group">
-                <img src="../assets/img/pexels-cats-coming-1543800.jpg" alt="">
-                <div class="card-body">
-                  <div class="card-title">title</div>
-                  <div class="card-text">內容</div>
-                </div>
-              </div>
-               </a>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="card">
-              <a href="#">
-              <div class="card-group">
-                <img src="../assets/img/pexels-cats-coming-1543800.jpg" alt="">
-                <div class="card-body">
-                  <div class="card-title">title</div>
-                  <div class="card-text">內容</div>
-                </div>
-              </div>
-               </a>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="card">
-              <a href="#">
-              <div class="card-group">
-                <img src="../assets/img/pexels-cats-coming-1543800.jpg" alt="">
-                <div class="card-body">
-                  <div class="card-title">title</div>
-                  <div class="card-text">內容</div>
-                </div>
-              </div>
-               </a>
             </div>
           </div>
         </div>
@@ -235,7 +122,7 @@ h2::before{
  .card-link::before{
    content: "";
    left: 0;
-   height: 68%;
+   height: 100%;
    width: 100%;
    background-color: rgba(255, 255, 255, 0.3);
    opacity: 0;
@@ -291,28 +178,33 @@ import 'swiper/swiper.min.css';
 export default {
   data() {
     return {
-      listProducts: [
-        {
-          category: '衣服2',
-          content: '這是內容',
-          description: 'Sit down please 名設計師設計',
-          id: '-L9tH8jxVb2Ka_DYPwng',
-          is_enabled: 1,
-          origin_price: 100,
-          price: 600,
-          title: '[賣]動物園造型衣服3',
-          unit: '個',
-          num: 1,
-        },
-      ],
+      listItems: [],
+      listCategory: [],
     };
   },
   methods: {
-    Alink() {
-      console.log('Alink');
+    getItems() {
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/products`;
+      this.$http.get(api)
+        .then((res) => {
+          if (res.data.success) {
+            this.listItems = res.data.products;
+            this.listCategory = this.listItems;
+            console.log(this.listItems);
+          } else {
+            console.log(res.data);
+          }
+        });
     },
-    BtnLink() {
-      console.log('BtnLink');
+    changeCategory(category) {
+      if (category === 'All') {
+        this.listCategory = this.listItems;
+      } else {
+        this.listCategory = this.listItems.filter((x) => x.category === category);
+      }
+    },
+    goProduct(id) {
+      this.$router.push(`product/${id}`);
     },
   },
   mounted() {
@@ -347,6 +239,9 @@ export default {
         },
       },
     });
+  },
+  created() {
+    this.getItems();
   },
 };
 </script>
