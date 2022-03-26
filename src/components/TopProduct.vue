@@ -16,7 +16,7 @@
       </li>
     </ul>
     <div>
-      <div class="swiper">
+      <div class="swiper" id="productswiper">
         <div class="swiper-button-prev"></div>
         <div class="swiper-button-next"></div>
         <div class="swiper-wrapper">
@@ -169,8 +169,6 @@ h2::before{
 </style>
 
 <script>
-
-// Import Swiper styles
 import Swiper, { Grid, Navigation, Pagination } from 'swiper';
 import 'swiper/swiper-bundle.min.css';
 import 'swiper/swiper.min.css';
@@ -184,7 +182,7 @@ export default {
   },
   methods: {
     getItems() {
-      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/products`;
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/products/all`;
       this.$http.get(api)
         .then((res) => {
           if (res.data.success) {
@@ -208,7 +206,7 @@ export default {
     },
   },
   mounted() {
-    return new Swiper('.swiper', {
+    return new Swiper('#productswiper', {
       modules: [Grid, Navigation, Pagination],
       slidesPerView: 2,
       spaceBetween: 20,

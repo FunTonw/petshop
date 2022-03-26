@@ -10,7 +10,7 @@
   mb-5">
     <div class="cake1 move"></div>
     <div class="cake2"></div>
-      <div class="text">
+      <div class="coupon_text">
       <p>輸入優惠碼即可獲得</p>
       <p>滿$200 折 $50</p>
     </div>
@@ -69,7 +69,7 @@
     position: absolute;
     z-index: -2;
   }
-  .text {
+  .coupon_text {
     font-size: 50px;
     font-weight: 600;
     line-height: 1;

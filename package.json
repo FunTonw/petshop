@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "tags": [
-    "swiper"
+    "Swiper"
   ],
   "scripts": {
     "serve": "vue-cli-service serve",
