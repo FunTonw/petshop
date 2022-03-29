@@ -7,7 +7,8 @@
     </div>
     <CouponBanner/>
     <BannerItem/>
-    <CustomersSaid/>
+    <CustomersSaid class="mb-5"/>
+    <Feat/>
   </div>
 </template>
 
@@ -18,6 +19,7 @@ import TopProduct from '../components/TopProduct.vue';
 import CouponBanner from '../components/CouponBanner.vue';
 import BannerItem from '../components/BannerItem.vue';
 import CustomersSaid from '../components/CustomersSaid.vue';
+import Feat from '../components/Feat.vue';
 
 export default {
   components: {
@@ -27,6 +29,7 @@ export default {
     CouponBanner,
     BannerItem,
     CustomersSaid,
+    Feat,
   },
 };
 </script>

@@ -3,7 +3,7 @@
    <h3 class="text-center text-white fsadd">顧客回饋</h3>
    <div class="container">
      <div class="swiper" id="customer">
-      <div class="swiper-pagination"></div>
+      <div class="swiper-pagination" id="customer-pagination"></div>
       <div class="swiper-wrapper">
         <div class="swiper-slide" v-for="item in Customers" :key="item.id">
           <div class="customer-card d-flex flex-column align-items-center py-3 text-white">
@@ -95,7 +95,7 @@ export default {
       slidesPerView: 1,
       spaceBetween: 20,
       pagination: {
-        el: '.swiper-pagination',
+        el: '#customer-pagination',
         type: 'bullets',
       },
     });

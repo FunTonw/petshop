@@ -17,9 +17,9 @@
     </ul>
     <div>
       <div class="swiper" id="productswiper">
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
         <div class="swiper-wrapper">
+          <div class="swiper-button-prev" id="product-prev"></div>
+          <div class="swiper-button-next" id="product-next"></div>
           <div class="swiper-slide" v-for="item, key in this.listCategory" :key="key">
             <div class="card">
                   <a href="#"
@@ -215,8 +215,8 @@ export default {
         fill: 'row',
       },
       navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
+        nextEl: '#product-next',
+        prevEl: '#product-prev',
       },
       breakpoints: {
         429: {

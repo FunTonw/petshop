@@ -2,6 +2,7 @@
 <Header/>
 <UserNavbar/>
 <router-view/>
+<Foot class="mt-5"/>
 </template>
 <style>
   ul > li > a{
@@ -32,11 +33,13 @@
 <script>
 import Header from '../components/Header.vue';
 import UserNavbar from '../components/UserNavbar.vue';
+import Foot from '../components/Foot.vue';
 
 export default {
   components: {
     Header,
     UserNavbar,
+    Foot,
   },
 };
 </script>
