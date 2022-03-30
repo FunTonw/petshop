@@ -10,32 +10,51 @@
       <div class="swiper-wrapper">
           <div class="swiper-slide">
               <div class="feat-img">
-                <img src="../assets/img/feat/1-80x80.png" alt="">
+                <img src="../assets/img/feat/1-80x80.png" alt=""
+                class="animate__animated"
+                @mouseover="shake">
               </div>
           </div>
           <div class="swiper-slide">
               <div class="feat-img">
-                <img src="../assets/img/feat/2-80x80.png" alt="">
+                <img src="../assets/img/feat/2-80x80.png" alt=""
+                class="animate__animated"
+                @mouseover="shake">
               </div>
           </div>
           <div class="swiper-slide">
               <div class="feat-img">
-                <img src="../assets/img/feat/3-80x80.png" alt="">
+                <img src="../assets/img/feat/3-80x80.png" alt=""
+                class="animate__animated"
+                @mouseover="shake">
               </div>
           </div>
           <div class="swiper-slide">
               <div class="feat-img">
-                <img src="../assets/img/feat/4-80x80.png" alt="">
+                <img src="../assets/img/feat/4-80x80.png" alt=""
+                class="animate__animated"
+                @mouseover="shake">
               </div>
           </div>
           <div class="swiper-slide">
               <div class="feat-img">
-                <img src="../assets/img/feat/5-80x80.png" alt="">
+                <img src="../assets/img/feat/5-80x80.png" alt=""
+                class="animate__animated"
+                @mouseover="shake">
               </div>
           </div>
            <div class="swiper-slide">
               <div class="feat-img">
-                <img src="../assets/img/feat/5-80x80.png" alt="">
+                <img src="../assets/img/feat/5-80x80.png" alt=""
+                class="animate__animated"
+                @mouseover="shake">
+              </div>
+          </div>
+          <div class="swiper-slide">
+              <div class="feat-img">
+                <img src="../assets/img/feat/2-80x80.png" alt=""
+                class="animate__animated"
+                @mouseover="shake">
               </div>
           </div>
       </div>
@@ -63,6 +82,22 @@ import 'swiper/swiper-bundle.min.css';
 import 'swiper/swiper.min.css';
 
 export default {
+  data() {
+    return {
+      featImgs: [
+        // eslint-disable-next-line global-require
+        require('@/assets/img/feat/1-80x80.png'),
+      ],
+    };
+  },
+  methods: {
+    shake(event) {
+      event.target.classList.remove('animate__swing');
+      setTimeout(() => {
+        event.target.classList.add('animate__swing');
+      });
+    },
+  },
   mounted() {
     return new Swiper('#feat', {
       modules: [Grid, Navigation, Pagination],
