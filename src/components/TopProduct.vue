@@ -17,9 +17,9 @@
     </ul>
     <div>
       <div class="swiper" id="productswiper">
+        <div class="swiper-button-prev" id="product-prev"></div>
+        <div class="swiper-button-next" id="product-next"></div>
         <div class="swiper-wrapper">
-          <div class="swiper-button-prev" id="product-prev"></div>
-          <div class="swiper-button-next" id="product-next"></div>
           <div class="swiper-slide" v-for="item, key in this.listCategory" :key="key">
             <div class="card">
                   <a href="#"
@@ -62,7 +62,7 @@
                       <p  class="m-0 fw-blod text-danger">{{ item.price }}</p>
                     </div>
                     <div>
-                      <button class="cart-btn btn fs-6 p-0 px-3">
+                      <button class="cart-btn btn fs-6 p-0 px-3" @click="addCart(item)">
                         <i class="bi bi-cart-plus"></i> Add
                       </button>
                     </div>
@@ -203,6 +203,20 @@ export default {
     },
     goProduct(id) {
       this.$router.push(`product/${id}`);
+    },
+    addCart(item) {
+      console.log(item.id);
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`;
+      const dataInfo = {
+        data: {
+          product_id: item.id,
+          qty: 1,
+        },
+      };
+      this.$http.post(api, dataInfo)
+        .then((res) => {
+          console.log(res.data);
+        });
     },
   },
   mounted() {

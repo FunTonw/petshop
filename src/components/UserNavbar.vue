@@ -18,15 +18,15 @@
           under-line"
           ref="navList">
             <li class="px-auto">
-              <a class="py-1 me-lg-4 me-0 text-center d-block" aria-current="page" href="#">Home</a>
+              <a class="py-1 me-md-4 me-0 text-center d-block" aria-current="page" href="#">Home</a>
             </li>
-            <li class="py-1 me-lg-4 me-0 text-center d-block">
+            <li class="py-1 me-md-4 me-0 text-center d-block">
               <a href="#">About Us</a>
             </li>
-            <li class="py-1 me-lg-4 me-0 text-center d-block">
+            <li class="py-1 me-md-4 me-0 text-center d-block">
               <a href="#">Product</a>
             </li>
-            <li class="py-1 me-lg-4 me-0 text-center d-block ">
+            <li class="py-1 me-md-4 me-0 text-center d-block ">
               <a href="#">Shop</a>
             </li>
           </ul>
@@ -78,10 +78,10 @@
       position: absolute;
       width: 100%;
       background: #fff;
-      transform: translate(100%, 80%);
+      transform: translateY(0%);
       display: block;
-      opacity: 1;
-      z-index: 1;
+      opacity: 0;
+      z-index: -1;
       transition: all .2s linear;
     }
     /* .user-nav-list > li{
@@ -91,8 +91,9 @@
       /* transition: all .5 linear;
       height: 100% !important */
       transition: all .2s linear;
-      transform: translate(0%, 80%);
+      transform: translateY(80%);
       opacity: 1;
+      z-index: 1;
     }
    }
 </style>
