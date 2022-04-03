@@ -7,6 +7,7 @@ import 'vue3-loading-overlay/dist/vue3-loading-overlay.css';
 import 'animate.css';
 
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import bus from './bus';
 import App from './App.vue';
 import router from './router';
 import { currency } from './methods/filters';
@@ -18,4 +19,6 @@ app.config.globalProperties.$filters = {
 app.use(VueAxios, axios);
 app.use(router);
 app.component('Loading', Loading);
+app.config.globalProperties.$bus = bus;
+
 app.mount('#app');

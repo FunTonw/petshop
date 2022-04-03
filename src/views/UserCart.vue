@@ -221,8 +221,7 @@ export default {
         code: this.coupon_code,
       };
       this.$http.post(api, { data: coupon })
-        .then((res) => {
-          console.log(res);
+        .then(() => {
           this.getCart();
         });
     },
@@ -230,7 +229,6 @@ export default {
   created() {
     this.getProduct();
     this.getCart();
-    console.log('OK');
   },
 };
 </script>

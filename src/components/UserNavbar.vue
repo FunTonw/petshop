@@ -11,14 +11,15 @@
           d-flex
           flex-md-row flex-column
           mx-auto
+          my-0
           p-0
           nav-list
           user-nav-list
           bg-light
           under-line"
           ref="navList">
-            <li class="px-auto">
-              <a class="py-1 me-md-4 me-0 text-center d-block" aria-current="page" href="#">Home</a>
+            <li class="px-auto py-1 me-md-4 me-0 text-center d-block">
+              <a href="#">Home</a>
             </li>
             <li class="py-1 me-md-4 me-0 text-center d-block">
               <a href="#">About Us</a>
@@ -31,7 +32,12 @@
             </li>
           </ul>
         <ul class="d-flex nav-list m-0">
-          <li><a href="#"><i class="bi bi-cart4 fs-4 me-3"></i></a></li>
+          <li><a href="#">
+            <div class="cart-icon">
+              <i class="bi bi-cart4 fs-4 me-3"></i>
+              <span>{{ cartCount }}</span>
+            </div>
+            </a></li>
           <li><a href="#"><i class="bi bi-person-circle fs-4 me-3"></i></a></li>
           <li>
             <a href="#" class="nav-ham" @click.prevent="listActive()">
@@ -96,13 +102,31 @@
       z-index: 1;
     }
    }
+  .cart-icon{
+    position: relative;
+  }
+  .cart-icon span{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transform: translate(60%);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #FF9999;
+    text-align: center;
+    font-size: 14px;
+    color: #fff;
+  }
 </style>
 
 <script>
 export default {
   data() {
     return {
+      getText: '',
       listActiveSwitch: true,
+      cartCount: 0,
     };
   },
   methods: {
@@ -114,6 +138,28 @@ export default {
         this.$refs.navList.classList.remove('list-active');
       }
     },
+    // 取得cartsCount總數
+    getCart() {
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`;
+      this.$http.get(api)
+        .then((res) => {
+          const cartProducts = res.data.data.carts;
+          let countQty = 0;
+          cartProducts.forEach((ele) => {
+            countQty += ele.qty;
+          });
+          this.cartCount = countQty;
+        });
+    },
+  },
+  created() {
+    this.getCart();
+  },
+  mounted() {
+    // 從TopProduct.vue接回的cartsCount
+    this.$bus.$on('getmitt', (msg) => {
+      this.cartCount = msg;
+    });
   },
 };
 </script>

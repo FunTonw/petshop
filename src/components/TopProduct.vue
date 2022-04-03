@@ -63,7 +63,14 @@
                     </div>
                     <div>
                       <button class="cart-btn btn fs-6 p-0 px-3" @click="addCart(item)">
-                        <i class="bi bi-cart-plus"></i> Add
+                        <i class="bi bi-cart-plus"></i>
+                        <span>Add</span>
+                        <div
+                        class="spinner-border text-danger spinner-border-sm"
+                        role="status"
+                        v-if="this.status.loadingItem === item.id">
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
                       </button>
                     </div>
                   </div>
@@ -74,6 +81,7 @@
       </div>
     </div>
   </div>
+  <button class="btn" @click="textBtn">click Me</button>
 </template>
 
 <style>
@@ -176,8 +184,13 @@ import 'swiper/swiper.min.css';
 export default {
   data() {
     return {
+      tsetText: '1',
       listItems: [],
       listCategory: [],
+      cartCount: 0,
+      status: {
+        loadingItem: '',
+      },
     };
   },
   methods: {
@@ -207,15 +220,30 @@ export default {
     addCart(item) {
       console.log(item.id);
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`;
+      this.status.loadingItem = item.id;
       const dataInfo = {
-        data: {
-          product_id: item.id,
-          qty: 1,
-        },
+        product_id: item.id,
+        qty: 1,
       };
-      this.$http.post(api, dataInfo)
+      this.$http.post(api, { data: dataInfo })
         .then((res) => {
-          console.log(res.data);
+          this.status.loadingItem = '';
+          console.log(res);
+          this.getCart();
+        });
+    },
+    // 取得cartsCount數量, mitt回傳至UserNavbar.vue
+    getCart() {
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`;
+      this.$http.get(api)
+        .then((res) => {
+          const cartProducts = res.data.data.carts;
+          let countQty = 0;
+          cartProducts.forEach((ele) => {
+            countQty += ele.qty;
+          });
+          this.cartCount = countQty;
+          this.$bus.$emit('getmitt', this.cartCount);
         });
     },
   },
