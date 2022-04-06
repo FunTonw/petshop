@@ -5,12 +5,15 @@
       <li class="breadcrumb-item active" aria-current="page">{{ item.title }}</li>
     </ol>
   </nav>
-  <div class="body d-flex flex-column justify-content-center align-items-center">
-    <img :src="item.imageUrl" alt="" class="w-50">
-    <div class="warp">
-      <h3>{{ item.title }}</h3>
-      <p>{{ item.category }}</p>
+  <div class="container">
+  <div class="row p-3 border border-1 border-pink rounded bg-white">
+    <div class="w-50 col-6">
+      <img :src="item.imageUrl" alt="" class="w-100">
+    </div>
+    <div class="col-6 d-flex flex-column justify-content-between">
       <div class="content">
+        <h3>{{ item.title }}</h3>
+        <p>{{ item.category }}</p>
         <p>{{ item.description }}</p>
         <p>{{ item.content }}</p>
       </div>
@@ -31,12 +34,9 @@
       </div>
     </div>
   </div>
+  </div>
 </template>
 <style>
-  .body{
-    margin: 0 auto;
-    height: 100vh;
-  }
   .btn-gp > button{
     font-size: 13px;
   }

@@ -59,7 +59,11 @@
     font-size: 56px;
     padding: 14px;
   }
-  .service-item::before{
+  .service-item{
+    position: relative;
+    z-index: 10;
+  }
+  .service-item::after{
     content: "";
     display: block;
     background-color: #666699;
@@ -67,6 +71,7 @@
     height: 85px;
     position: absolute;
     border-radius: 50%;
+    top: 0;
     z-index: -1;
   }
   .service-text{

@@ -81,7 +81,6 @@
       </div>
     </div>
   </div>
-  <button class="btn" @click="textBtn">click Me</button>
 </template>
 
 <style>

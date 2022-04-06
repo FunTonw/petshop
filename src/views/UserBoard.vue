@@ -1,10 +1,18 @@
 <template>
+<div class="bg">
 <Header/>
 <UserNavbar/>
 <router-view/>
 <Foot class="mt-5"/>
+</div>
 </template>
 <style>
+.bg{
+  background:url('../assets/img/cake_bg.png') fixed no-repeat;
+  position: absolute;
+  z-index: -100;
+  width: 100%;
+}
   ul > li > a{
     text-decoration: none;
   }

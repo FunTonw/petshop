@@ -67,7 +67,7 @@
     width: 40%;
     height: 100%;
     position: absolute;
-    z-index: -2;
+    z-index: -1;
   }
   .coupon_text {
     font-size: 50px;

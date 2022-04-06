@@ -19,13 +19,13 @@
           under-line"
           ref="navList">
             <li class="px-auto py-1 me-md-4 me-0 text-center d-block">
-              <a href="#">Home</a>
+              <a href="#" @click.prevent="pushRouter('home')">Home</a>
             </li>
             <li class="py-1 me-md-4 me-0 text-center d-block">
-              <a href="#">About Us</a>
+              <a href="#" @click.prevent="pushRouter('aboutus')">About Us</a>
             </li>
             <li class="py-1 me-md-4 me-0 text-center d-block">
-              <a href="#">Product</a>
+              <a href="#" @click.prevent="pushRouter('cart')">Product</a>
             </li>
             <li class="py-1 me-md-4 me-0 text-center d-block ">
               <a href="#">Shop</a>
@@ -150,6 +150,9 @@ export default {
           });
           this.cartCount = countQty;
         });
+    },
+    pushRouter(location) {
+      this.$router.push(`${location}`);
     },
   },
   created() {
