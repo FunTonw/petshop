@@ -152,7 +152,7 @@ export default {
         });
     },
     pushRouter(location) {
-      this.$router.push(`${location}`);
+      this.$router.push(`/user/${location}`);
     },
   },
   created() {

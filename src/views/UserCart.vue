@@ -1,24 +1,52 @@
 <template>
-  <div class="container">
+  <div class="container mt-3">
       <div class="row">
-          <div class="col-3">
-            <ul class="list">
-              <li><a href="#" @click.prevent="productList('all')">查看 - 所有</a></li>
-              <li><a href="#" @click.prevent="productList('寵物用具')">寵物 - 用品</a></li>
-              <li><a href="#" @click.prevent="productList('寵物食品')">寵物 - 食品</a></li>
-              <li><a href="#" @click.prevent="productList('寵物玩具')">寵物 - 玩具</a></li>
+          <div class="col-12 col-md-3">
+            <ul class="list row pe-md-5" ref="list">
+              <li class="col-6 col-md-12">
+                <a class="d-block py-0 py-md-2"
+                  href="#"
+                  @click.prevent="productList('all')"
+                  data-list="all">
+                  所有 - ALL
+                </a>
+              </li>
+              <li class="col-6 col-md-12">
+                <a class="d-block py-0 py-md-2"
+                   href="#"
+                   @click.prevent="productList('蛋糕')"
+                   data-list="蛋糕">
+                  蛋糕 - CAKE
+                </a>
+              </li>
+              <li class="col-6 col-md-12">
+                <a class="d-block py-0 py-md-2"
+                   href="#"
+                   @click.prevent="productList('派餅')"
+                   data-list="派餅">
+                  派餅 - PIE
+                </a>
+              </li>
+              <li class="col-6 col-md-12">
+                <a class="d-block py-0 py-md-2"
+                   href="#"
+                   @click.prevent="productList('麵包')"
+                   data-list="麵包">
+                  麵包 - BREAD
+                </a>
+              </li>
             </ul>
           </div>
-          <div class="col-9">
+          <div class="col-12 col-md-9">
               <div class="row">
-                  <div class="col-4 mb-2"  v-for="item in listProducts" :key="item.id">
+                  <div class="col-6 col-md-4 mb-2"  v-for="item in listProducts" :key="item.id">
                     <a href="#" @click.prevent="goProduct(item.id)"
                     style="text-decoration:none; color:#000">
-                      <div class="card">
-                        <img :src="item.imageUrl" class="card-img-top madel" alt="">
+                      <div class="card h-100">
+                          <img :src="item.imageUrl" class="card-img-top madel h-100" alt="">
                         <div class="card-body p-3">
                           <div class="d-flex align-items-center card-title">
-                            <b>{{ item.title }}</b>
+                            <b class="user-cart-title">{{ item.title }}</b>
                             <button
                             class="btn btn-outline-danger p-0 px-1 ms-auto"
                             type="button"
@@ -47,6 +75,7 @@
           </div>
       </div>
   </div>
+    <!-- 購物車 -->
     <div class="cart_group">
     <button
       class="btn btn-outline-info rounded-pill fs-2"
@@ -60,11 +89,11 @@
             <th class="col-1"></th>
             <th class="col">項目</th>
             <th class="col-2">數量</th>
-            <th class="col-3">單價</th>
+            <th class="col-3">價格</th>
           </tr>
         </thead>
-        <tbody v-for="item in cartProducts.carts" :key="item.id">
-          <tr>
+        <tbody>
+          <tr  v-for="item in cartProducts.carts" :key="item.id">
             <td>
               <button class="btn p-0" @click.prevent="delCart(item.id)">
                <i class="bi bi-x-circle"></i>
@@ -121,13 +150,59 @@
     margin: 18px;
   }
   .list > li > a{
-    padding: 10px;
     font-size: 18px;
     text-decoration: none;
-    color: rgb(153, 153, 153);
+    color: #666699;
+    border-bottom: 2px solid rgba(255, 255, 255, 0);
+    position: relative;
+    font-weight: bold;
+  }
+  .list > li > a::before{
+    position: absolute;
+    content: "";
+    height: 100%;
+    width: 0%;
+    border-bottom: 2px solid #666699;
   }
   .list > li > a:hover{
-    color: black;
+    color: #666699;
+  }
+  .list > li > a:hover::before{
+    width: 100%;
+    transition: all .5s;
+  }
+  .user-cart-title{
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  .cart-list-active{
+    background-color: #666699;
+    color: #fff !important
+  }
+  @media screen and (max-width: 992px) {
+    .list > li > a{
+      font-size: 10px;
+    }
+    .list > li{
+      margin: auto 0;
+      padding: 10px 0px;
+    }
+  }
+    @media screen and (max-width: 576px) {
+    .list > li{
+      margin: auto 0;
+      text-align: center;
+    }
+    .list{
+      padding: 0;
+    }
+    .list > li > a{
+      font-size: 16px;
+    }
+    .list > li > a::before{
+      content: none;
+    }
   }
   /* 購物車 */
   .cart_group > button {
@@ -142,8 +217,10 @@
     box-shadow: -3px 3px 4px rgba(255, 116, 24, 0.082);
     background-color: #fff;
   }
-  .cart_group > div > table {
-    width: 500px;
+  .cart_group > div {
+    overflow: auto;
+    max-height: 80%;
+    max-width: 90%;
   }
 </style>
 
@@ -151,6 +228,7 @@
 export default {
   data() {
     return {
+      listcetegory: 'all',
       products: [],
       pagination: {},
       listProducts: [],
@@ -183,6 +261,14 @@ export default {
     },
     productList(category) {
       this.listProducts = (category === 'all' ? this.products : this.products.filter((x) => x.category === category));
+      this.listcetegory = category;
+      this.$refs.list.childNodes.forEach((ele) => {
+        if (ele.firstChild.dataset.list === category) {
+          ele.firstChild.classList.add('cart-list-active');
+        } else {
+          ele.firstChild.classList.remove('cart-list-active');
+        }
+      });
     },
     addCart(id, isNew, count = 1) {
       // 新增購物車
