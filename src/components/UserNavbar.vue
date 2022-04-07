@@ -93,7 +93,7 @@
     /* .user-nav-list > li{
       height: 0;
     } */
-    .list-active {
+    .ham-list-active {
       /* transition: all .5 linear;
       height: 100% !important */
       transition: all .2s linear;
@@ -124,7 +124,6 @@
 export default {
   data() {
     return {
-      getText: '',
       listActiveSwitch: true,
       cartCount: 0,
     };
@@ -133,9 +132,9 @@ export default {
     listActive() {
       this.listActiveSwitch = !this.listActiveSwitch;
       if (!this.listActiveSwitch) {
-        this.$refs.navList.classList.add('list-active');
+        this.$refs.navList.classList.add('ham-list-active');
       } else {
-        this.$refs.navList.classList.remove('list-active');
+        this.$refs.navList.classList.remove('ham-list-active');
       }
     },
     // 取得cartsCount總數
@@ -153,6 +152,7 @@ export default {
     },
     pushRouter(location) {
       this.$router.push(`/user/${location}`);
+      this.listActive();
     },
   },
   created() {

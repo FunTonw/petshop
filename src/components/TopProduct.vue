@@ -231,7 +231,6 @@ export default {
           this.getCart();
         });
     },
-    // 取得cartsCount數量, mitt回傳至UserNavbar.vue
     getCart() {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`;
       this.$http.get(api)
@@ -242,8 +241,13 @@ export default {
             countQty += ele.qty;
           });
           this.cartCount = countQty;
-          this.$bus.$emit('getmitt', this.cartCount);
         });
+    },
+  },
+  // 取得cartsCount數量, mitt回傳至UserNavbar.vue
+  watch: {
+    cartCount() {
+      this.$bus.$emit('getmitt', this.cartCount);
     },
   },
   mounted() {

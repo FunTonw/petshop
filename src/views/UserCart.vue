@@ -4,7 +4,7 @@
           <div class="col-12 col-md-3">
             <ul class="list row pe-md-5" ref="list">
               <li class="col-6 col-md-12">
-                <a class="d-block py-0 py-md-2"
+                <a class="d-block py-0 py-md-2 cart-list-active"
                   href="#"
                   @click.prevent="productList('all')"
                   data-list="all">
@@ -310,6 +310,15 @@ export default {
         .then(() => {
           this.getCart();
         });
+    },
+  },
+  watch: {
+    cartProducts() {
+      let cartQty = 0;
+      this.cartProducts.carts.forEach((ele) => {
+        cartQty += ele.qty;
+      });
+      this.$bus.$emit('getmitt', cartQty);
     },
   },
   created() {
