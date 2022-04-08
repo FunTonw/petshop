@@ -44,7 +44,7 @@
             <li class="me-2"><i class="bi bi-youtube"></i></li>
             <li><i class="bi bi-pinterest"></i></li>
           </ul>
-          <p class="text-white">圖片僅為練習使用，無商業用途。</p>
+          <p class="text-white">此網站僅為練習使用，無商業用途。</p>
         </div>
       </div>
     </div>

@@ -19,30 +19,31 @@
           under-line"
           ref="navList">
             <li class="px-auto py-1 me-md-4 me-0 text-center d-block">
-              <a href="#" @click.prevent="pushRouter('home')">Home</a>
+              <router-link @click.prevent="listActive()" to="/user/home">Home</router-link>
             </li>
             <li class="py-1 me-md-4 me-0 text-center d-block">
-              <a href="#" @click.prevent="pushRouter('aboutus')">About Us</a>
+              <router-link @click.prevent="listActive()" to="/user/aboutus">About Us</router-link>
             </li>
             <li class="py-1 me-md-4 me-0 text-center d-block">
-              <a href="#" @click.prevent="pushRouter('cart')">Product</a>
+              <router-link @click.prevent="listActive()" to="/user/cart">Product</router-link>
             </li>
             <li class="py-1 me-md-4 me-0 text-center d-block ">
               <a href="#">Shop</a>
             </li>
           </ul>
         <ul class="d-flex nav-list m-0">
-          <li><a href="#">
-            <div class="cart-icon">
-              <i class="bi bi-cart4 fs-4 me-3"></i>
-              <span>{{ cartCount }}</span>
-            </div>
-            </a></li>
-          <li><a href="#"><i class="bi bi-person-circle fs-4 me-3"></i></a></li>
           <li>
-            <a href="#" class="nav-ham" @click.prevent="listActive()">
-              <i class="bi bi-list fs-4"></i>
-            </a>
+            <router-link @click.prevent="listActive()" to="/user/home">
+              <div class="cart-icon">
+                <i class="bi bi-cart4 fs-4 me-3"></i>
+                <span>{{ cartCount }}</span>
+              </div>
+            </router-link>
+          </li>
+          <li>
+            <router-link @click.prevent="listActive()" to="/user/home">
+              <i class="bi bi-person-circle fs-4 me-3"></i>
+            </router-link>
           </li>
         </ul>
       </div>
@@ -149,10 +150,6 @@ export default {
           });
           this.cartCount = countQty;
         });
-    },
-    pushRouter(location) {
-      this.$router.push(`/user/${location}`);
-      this.listActive();
     },
   },
   created() {

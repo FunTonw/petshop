@@ -47,26 +47,27 @@
                         <div class="card-body p-3">
                           <div class="d-flex align-items-center card-title">
                             <b class="user-cart-title">{{ item.title }}</b>
+                          </div>
+                          <div class="d-flex justify-content-between align-items-center">
+                            <p class="origin-price fw-light mb-0">{{ item.origin_price }}</p>
+                            <p class="price fw-bold mb-0">${{ item.price }}</p>
+                          </div>
                             <button
-                            class="btn btn-outline-danger p-0 px-1 ms-auto"
+                            class="btn btn-outline-danger py-1 w-100 mt-2"
                             type="button"
                             @click.prevent.stop="addCart(item.id, true)"
                             :disabled="this.status.loadingItem === item.id">
                               <div
-                              class="spinner-border text-danger spinner-border-sm"
+                              class="spinner-border text-danger spinner-border-sm "
                               role="status"
                               v-if="this.status.loadingItem === item.id">
                                 <span class="visually-hidden">Loading...</span>
                               </div>
                               <span v-else>
                                 <i class="bi bi-cart4"></i>
+                                <span>加入購物車</span>
                               </span>
                              </button>
-                          </div>
-                          <div class="d-flex justify-content-between align-items-center">
-                            <p class="origin-price fw-light mb-0">{{ item.origin_price }}</p>
-                            <p class="price fw-bold mb-0">${{ item.price }}</p>
-                          </div>
                         </div>
                       </div>
                     </a>
