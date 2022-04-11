@@ -4,9 +4,9 @@
       <div class="col-12 col-md-6">
         <div class="banner_item">
             <div class="inner">
-              <a href="#">
+              <router-link to="/user/cart">
                 <img src="../assets/img/banner/banner_item1.jpg" alt="">
-              </a>
+              </router-link>
             </div>
           <div class="
           banner_item_text
@@ -24,9 +24,9 @@
       <div class="col-12 col-md-6">
         <div class="banner_item">
           <div class="inner">
-            <a href="#">
+            <router-link to="/user/buy">
               <img src="../assets/img/banner/banner_item2.jpg" alt="">
-            </a>
+            </router-link>
           </div>
           <div class="banner_item_text2 fw-bold fs-5 lh-1">
             <p class="

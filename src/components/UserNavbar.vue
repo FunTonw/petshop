@@ -28,12 +28,12 @@
               <router-link @click.prevent="listActive()" to="/user/cart">Product</router-link>
             </li>
             <li class="py-1 me-md-4 me-0 text-center d-block ">
-              <a href="#">Shop</a>
+              <router-link @click.prevent="listActive()" to="/user/buy">Shop</router-link>
             </li>
           </ul>
         <ul class="d-flex nav-list m-0">
           <li>
-            <router-link @click.prevent="listActive()" to="/user/home">
+            <router-link to="/user/buy">
               <div class="cart-icon">
                 <i class="bi bi-cart4 fs-4 me-3"></i>
                 <span>{{ cartCount }}</span>
@@ -41,9 +41,14 @@
             </router-link>
           </li>
           <li>
-            <router-link @click.prevent="listActive()" to="/user/home">
+            <router-link to="/user/home">
               <i class="bi bi-person-circle fs-4 me-3"></i>
             </router-link>
+          </li>
+          <li>
+            <a href="#" class="nav-ham" @click.prevent="listActive()">
+              <i class="bi bi-list fs-4"></i>
+            </a>
           </li>
         </ul>
       </div>

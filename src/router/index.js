@@ -58,6 +58,10 @@ const routes = [
         path: 'product/:productId',
         component: () => import('../views/UserProduct.vue'),
       },
+      {
+        path: 'buy',
+        component: () => import('../views/UserBuy.vue'),
+      },
     ],
   },
 ];

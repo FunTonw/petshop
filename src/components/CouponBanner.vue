@@ -23,7 +23,9 @@
     py-1
     mb-2
     fw-bold">cakeking</span>
-    <button class="btn btn-danger">馬上使用</button>
+    <router-link to="/user/buy"  class="btn btn-danger">
+      馬上使用
+    </router-link>
   </div>
 </div>
 </template>
