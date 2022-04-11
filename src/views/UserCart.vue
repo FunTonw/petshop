@@ -49,8 +49,12 @@
                             <b class="user-cart-title">{{ item.title }}</b>
                           </div>
                           <div class="d-flex justify-content-between align-items-center">
-                            <p class="origin-price fw-light mb-0">{{ item.origin_price }}</p>
-                            <p class="price fw-bold mb-0">${{ item.price }}</p>
+                            <p class="origin-price fw-light mb-0">
+                              ${{ $filters.currency(item.origin_price) }}
+                            </p>
+                            <p class="price fw-bold mb-0 fs-5">
+                              ${{ $filters.currency(item.price) }}
+                            </p>
                           </div>
                             <button
                             class="btn btn-outline-danger py-1 w-100 mt-2"

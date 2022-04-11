@@ -49,8 +49,8 @@
                 </button>
               </div>
             </td>
-            <td>${{ item.product.price }}</td>
-            <td>${{ item.total }}</td>
+            <td>${{ $filters.currency(item.product.price) }}</td>
+            <td>${{ $filters.currency(item.total) }}</td>
             <td>
               <button class="btn btn-outline-danger btn-sm" @click.prevent="delCart(item)">
                 <i class="bi bi-x"></i>
@@ -75,8 +75,8 @@
         </div>
         </div>
         <div class="col-md-6 col-12 fw-bold fs-5 text-end">
-          <p>總金額 : ${{ originTotal }}</p>
-          <p class="text-danger">折扣價 : ${{ total }}</p>
+          <p>總金額 : ${{ $filters.currency(originTotal) }}</p>
+          <p class="text-danger">折扣價 : ${{ $filters.currency(total) }}</p>
         </div>
       </div>
     </div>
@@ -84,6 +84,7 @@
 </template>
 
 <script>
+
 export default {
   data() {
     return {

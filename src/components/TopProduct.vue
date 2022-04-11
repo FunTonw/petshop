@@ -57,9 +57,9 @@
                   align-items-center align-items-lg-end">
                     <div class="price d-flex">
                       <p class="fs-6 m-0 me-1 text-decoration-line-through">
-                        {{ item.origin_price }}
+                        ${{ $filters.currency(item.origin_price) }}
                       </p>
-                      <p  class="m-0 fw-blod text-danger">{{ item.price }}</p>
+                      <p  class="m-0 fw-blod text-danger">${{ $filters.currency(item.price) }}</p>
                     </div>
                     <div>
                       <button class="cart-btn btn fs-6 p-0 px-3" @click="addCart(item)">
