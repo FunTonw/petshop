@@ -78,6 +78,10 @@
           <p>總金額 : ${{ $filters.currency(originTotal) }}</p>
           <p class="text-danger">折扣價 : ${{ $filters.currency(total) }}</p>
         </div>
+        <div class="d-flex justify-content-end">
+          <router-link class="btn btn-outline-secondary me-3" to="/user/cart">繼續選購</router-link>
+          <router-link class="btn btn-danger" to="/user/form">前往結帳</router-link>
+        </div>
       </div>
     </div>
   </div>

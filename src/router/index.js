@@ -62,6 +62,14 @@ const routes = [
         path: 'buy',
         component: () => import('../views/UserBuy.vue'),
       },
+      {
+        path: 'form',
+        component: () => import('../views/UserForm.vue'),
+      },
+      {
+        path: 'checkout/:orderId',
+        component: () => import('../views/UserCheckout.vue'),
+      },
     ],
   },
 ];
