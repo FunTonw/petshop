@@ -36,7 +36,7 @@
               <label for="payMethod" class="form-label text-secondary fw-bold">付款方式</label>
               <Field name="付款方式" as="select" id="payMethod"
                class="form-select" :class="{ 'is-invalid': errors['付款方式'] }"
-               rules="required" v-model="form.user.payMethod">
+               rules="required" v-model="form.user.payment_method">
                 <option selected disabled value="">選擇付款方式</option>
                 <option value="超商取貨" >超商取貨</option>
                 <option value="信用卡">信用卡/Visa</option>
@@ -106,8 +106,8 @@ export default {
       const order = this.form;
       this.$http.post(api, { data: order })
         .then((res) => {
-          console.log(res);
           this.getCarts();
+          this.$router.push(`/user/checkout/${res.data.orderId}`);
         });
     },
   },

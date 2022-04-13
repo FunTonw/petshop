@@ -28,6 +28,12 @@
           to="/deshboard/coupon">優惠卷</router-link>
         </li>
         <li class="nav-item">
+          <router-link
+          class="nav-link"
+          href="#"
+          to="/deshboard/order">訂單</router-link>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" @click.prevent="logout">登出</a>
         </li>
       </ul>

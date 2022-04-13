@@ -1,5 +1,5 @@
 <template>
-  <div class="container mt-5">
+  <div class="container mt-5" v-if="carts.length > 0">
     <h2>購物車</h2>
     <div class="mt-5">
       <table class="col-12 table table-striped table-light text-center">
@@ -85,6 +85,13 @@
       </div>
     </div>
   </div>
+  <div class="container" v-else>
+    <div class="d-flex flex-column justify-content-center align-items-center mt-5">
+      <p class="fw-bold fs-4 text-secondary">很抱歉，您的購物車還沒有商品</p>
+      <p class="fw-bold fs-4 text-secondary">趕緊將喜愛商品加入購物車吧</p>
+      <router-link to="/user/cart" class="btn btn-danger">回商品頁</router-link>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -106,7 +113,7 @@ export default {
           this.carts = res.data.data.carts;
           this.originTotal = res.data.data.total;
           this.total = res.data.data.final_total;
-          console.log(res.data.data);
+          console.log(res.data.data.carts);
         });
     },
     cartsCount(item, use) {

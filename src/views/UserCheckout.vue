@@ -29,7 +29,7 @@
       </tbody>
     </table>
     <div class="d-flex justify-content-end">
-      <button class="btn btn-danger" type="submit">完成付款</button>
+      <button class="btn btn-danger" type="submit" v-if="!order.is_paid">完成付款</button>
     </div>
     </form>
     <!-- 購物車內容 -->
