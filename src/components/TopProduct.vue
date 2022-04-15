@@ -200,9 +200,6 @@ export default {
           if (res.data.success) {
             this.listItems = res.data.products;
             this.listCategory = this.listItems;
-            console.log(this.listItems);
-          } else {
-            console.log(res.data);
           }
         });
     },
@@ -217,7 +214,6 @@ export default {
       this.$router.push(`product/${id}`);
     },
     addCart(item) {
-      console.log(item.id);
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`;
       this.status.loadingItem = item.id;
       const dataInfo = {
@@ -226,9 +222,10 @@ export default {
       };
       this.$http.post(api, { data: dataInfo })
         .then((res) => {
-          this.status.loadingItem = '';
-          console.log(res);
-          this.getCart();
+          if (res.data.success) {
+            this.status.loadingItem = '';
+            this.getCart();
+          }
         });
     },
     getCart() {

@@ -158,13 +158,8 @@ export default {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/upload`;
       this.$http.post(api, formData)
         .then((res) => {
-          console.log(res.data);
           if (res.data.success) {
             this.tempProduct.imageUrl = res.data.imageUrl;
-            console.log(res.data);
-            console.log(this.tempProduct);
-          } else {
-            console.log(res.data.message);
           }
         });
     },

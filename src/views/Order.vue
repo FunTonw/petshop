@@ -37,41 +37,56 @@
               >編輯</button>
               <button
               class="btn btn-outline-danger btn-sm"
+              @click.prevent="delOrder(item)"
               >刪除</button>
             </div>
           </td>
         </tr>
       </tbody>
     </table>
+    <PaginationVue
+  :pages="pagination"
+  @emit-pages="getOrder"/>
     <OrderModel
      ref="orderModel"
      :order="ordersItem"
      @emitOrder="updateOrder"/>
   </div>
+   <DelModal
+   ref="delModal"
+   :product="ordersItem"
+   @del-item="delOrder"/>
 </template>
 
 <script>
 import OrderModel from '../components/OrderModel.vue';
+import PaginationVue from '../components/Pagination.vue';
+import DelModal from '../components/DelModal.vue';
 
 export default {
+  // inject 串接Toast(刪除/更新提示)
+  inject: ['emitter'],
   components: {
     OrderModel,
+    PaginationVue,
+    DelModal,
   },
   data() {
     return {
       orders: [],
       ordersItem: {},
+      pagination: {},
       isNew: false,
     };
   },
   methods: {
-    getOrder() {
-      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/orders`;
+    getOrder(page = 1) {
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/orders/?page=${page}`;
       this.$http.get(api)
         .then((res) => {
           if (res.data.success) {
             this.orders = res.data.orders;
-            console.log(res.data.orders);
+            this.pagination = res.data.pagination;
           }
         });
     },
@@ -92,10 +107,41 @@ export default {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/order/${item.id}`;
       this.$http.put(api, { data: item })
         .then((res) => {
+          this.$refs.orderModel.hideModal();
           if (res.data.success) {
-            this.$refs.orderModel.hideModal();
             this.getOrder();
+            this.emitter.emit('push-message', {
+              style: 'success',
+              title: '更新成功',
+            });
+          } else {
+            this.emitter.emit('push-message', {
+              style: 'danger',
+              title: '更新失敗',
+              content: res.data.message.join('、'),
+            });
           }
+        });
+    },
+    delOrder(item) {
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/order/${item.id}`;
+      this.$http.delete(api)
+        .then((res) => {
+          this.$refs.delModal.hideModal();
+          if (res.data.success) {
+            console.log(res.data);
+            this.emitter.emit('push-message', {
+              style: 'success',
+              title: '刪除成功',
+            });
+          } else {
+            this.emitter.emit('push-message', {
+              style: 'danger',
+              title: '刪除失敗',
+              content: res.data.message,
+            });
+          }
+          this.getOrder();
         });
     },
   },

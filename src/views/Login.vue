@@ -1,5 +1,4 @@
 <template>
-      <Loading :active="isLoading"></Loading>
       <div class="loginbox border border-1 rounded rounded-4 py-3">
         <form @submit.prevent="signIn">
           <div class="d-flex flex-column align-items-center justify-content-center">
@@ -28,9 +27,9 @@
             </div>
             <button type="submit" class="btn btn-primary px-2">登入</button>
           </div>
-
         </form>
       </div>
+      <Loading :active="isLoading"></Loading>
 </template>
 
 <style lang="scss">
