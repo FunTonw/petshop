@@ -1,11 +1,13 @@
 <template>
-  <Loading :active="isLoading"  :is-full-page="true">
-    <div v-if="isLoadingMassege === 'Loading'">
+  <Loading :active="isGetLoading"  :is-full-page="true">
+    <div>
       <div class="spinner-border text-primary" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
     </div>
-    <div v-else-if="isLoadingMassege">
+  </Loading>
+    <Loading :active="isLoading"  :is-full-page="true">
+    <div>
       <div class="card">
         <div class="card-body text-center fs-1 fw-bold text-secondary m-3">
             <p><i class="bi bi-check2-square"></i></p>
@@ -207,6 +209,7 @@ export default {
       status: {
         loadingItem: '',
       },
+      isGetLoading: false,
       isLoading: false,
       isLoadingMassege: '',
     };
@@ -214,10 +217,11 @@ export default {
   methods: {
     getItems() {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/products/all`;
+      this.isGetLoading = true;
       this.$http.get(api)
         .then((res) => {
           if (res.data.success) {
-            this.isLoadingMassege = 'Loading';
+            this.isGetLoading = false;
             this.listItems = res.data.products;
             this.listCategory = this.listItems;
           }
@@ -244,6 +248,7 @@ export default {
         .then((res) => {
           if (res.data.success) {
             this.status.loadingItem = '';
+            this.isLoading = true;
             this.isLoadingMassege = res.data.message;
             this.getCart();
           }
@@ -267,11 +272,8 @@ export default {
     cartCount() {
       this.$bus.$emit('getmitt', this.cartCount);
     },
-    isLoadingMassege() {
-      if (this.isLoadingMassege) {
-        this.isLoading = true;
-        setTimeout(() => { this.isLoading = false; this.isLoadingMassege = ''; }, 1500);
-      }
+    isLoading() {
+      setTimeout(() => { this.isLoading = false; }, 1500);
     },
   },
   mounted() {

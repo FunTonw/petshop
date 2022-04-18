@@ -1,11 +1,13 @@
 <template>
-  <Loading :active="isLoading"  :is-full-page="true">
-    <div v-if="isLoadingMassege === 'Loading'">
+  <Loading :active="isGetLoading"  :is-full-page="true">
+    <div>
       <div class="spinner-border text-primary" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
     </div>
-    <div v-else>
+  </Loading>
+    <Loading :active="isLoading"  :is-full-page="true">
+    <div>
       <div class="card">
         <div class="card-body text-center fs-1 fw-bold text-secondary m-3">
             <p><i class="bi bi-check2-square"></i></p>
@@ -272,6 +274,7 @@ export default {
         loadingItem: '',
       },
       coupon_code: '',
+      isGetLoading: false,
       isLoading: false,
       isLoadingMassege: '',
     };
@@ -279,8 +282,9 @@ export default {
   methods: {
     getProduct() {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/products`;
+      this.isGetLoading = true;
       this.$http.get(api).then((res) => {
-        this.isLoadingMassege = 'Loading';
+        this.isGetLoading = false;
         this.products = res.data.products;
         this.listProducts = this.products;
       });
@@ -322,6 +326,7 @@ export default {
       };
       this.$http[cartMethods](api, { data: cart })
         .then((res) => {
+          this.isLoading = true;
           this.isLoadingMassege = res.data.message;
           this.status.loadingItem = '';
           this.getCart();
@@ -331,6 +336,7 @@ export default {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart/${id}`;
       this.$http.delete(api)
         .then((res) => {
+          this.isLoading = true;
           this.isLoadingMassege = res.data.message;
           this.getCart();
           console.log(res.data);
@@ -345,7 +351,9 @@ export default {
         code: this.coupon_code,
       };
       this.$http.post(api, { data: coupon })
-        .then(() => {
+        .then((res) => {
+          this.isLoading = true;
+          this.isLoadingMassege = res.data.message;
           this.getCart();
         });
     },
@@ -358,13 +366,8 @@ export default {
       });
       this.$bus.$emit('getmitt', cartQty);
     },
-    isLoadingMassege() {
-      if (this.isLoadingMassege) {
-        this.isLoading = true;
-        setTimeout(() => { this.isLoading = false; this.isLoadingMassege = ''; }, 1000);
-      } else if (!this.isLoadingMassege) {
-        this.isLoading = false;
-      }
+    isLoading() {
+      setTimeout(() => { this.isLoading = false; }, 1500);
     },
   },
   created() {

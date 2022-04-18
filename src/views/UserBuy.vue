@@ -1,11 +1,13 @@
 <template>
-  <Loading :active="isLoading"  :is-full-page="true">
-    <div v-if="isLoadingMassege === 'Loading'">
+  <Loading :active="isGetLoading"  :is-full-page="true">
+    <div>
       <div class="spinner-border text-primary" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
     </div>
-    <div v-else-if="isLoadingMassege">
+  </Loading>
+    <Loading :active="isLoading"  :is-full-page="true">
+    <div>
       <div class="card">
         <div class="card-body text-center fs-1 fw-bold text-secondary m-3">
             <p><i class="bi bi-check2-square"></i></p>
@@ -129,6 +131,7 @@ export default {
       status: {
         loadingItem: '',
       },
+      isGetLoading: false,
       isLoading: false,
       isLoadingMassege: '',
     };
@@ -136,12 +139,13 @@ export default {
   methods: {
     getCarts() {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`;
+      this.isGetLoading = true;
       this.$http.get(api)
         .then((res) => {
+          this.isGetLoading = false;
           this.carts = res.data.data.carts;
           this.originTotal = res.data.data.total;
           this.total = res.data.data.final_total;
-          this.isLoadingMassege = 'Loading';
         });
     },
     cartsCount(item, use) {
@@ -169,6 +173,7 @@ export default {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart/${item.id}`;
       this.$http.delete(api)
         .then((res) => {
+          this.isLoading = true;
           this.isLoadingMassege = res.data.message;
           this.getCarts();
         });
@@ -181,7 +186,7 @@ export default {
       this.$http.post(api, { data: coupon })
         .then((res) => {
           if (res.data.success) {
-            console.log(res.data);
+            this.isLoading = true;
             this.isLoadingMassege = res.data.message;
             this.getCarts();
           }
@@ -189,13 +194,8 @@ export default {
     },
   },
   watch: {
-    isLoadingMassege() {
-      if (this.isLoadingMassege) {
-        this.isLoading = true;
-        setTimeout(() => { this.isLoadingMassege = ''; this.isLoading = false; }, 1500);
-      } else if (!this.isLoadingMassege) {
-        this.isLoading = false;
-      }
+    isLoading() {
+      setTimeout(() => { this.isLoading = false; }, 1500);
     },
   },
   created() {
