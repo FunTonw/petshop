@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import Banner from '../components/Banner.vue';
+import Banner from '@/components/Banner.vue';
 import PromoItem from '../components/PromoItem.vue';
 import TopProduct from '../components/TopProduct.vue';
 import CouponBanner from '../components/CouponBanner.vue';
