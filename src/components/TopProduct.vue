@@ -16,7 +16,7 @@
       </div>
     </div>
   </Loading>
-  <div class="container">
+  <div class="container mb-5">
       <h2>推薦商品</h2>
     <ul class="d-flex justify-content-center fs-5 category-list text-decoration-none p-0 mt-4">
       <li class="m-2">

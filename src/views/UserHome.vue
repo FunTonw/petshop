@@ -3,11 +3,11 @@
     <Banner/>
     <div class="container">
       <PromoItem/>
-      <TopProduct class="mb-5"/>
+      <TopProduct/>
     </div>
     <CouponBanner/>
     <BannerItem/>
-    <CustomersSaid class="mb-5"/>
+    <CustomersSaid/>
     <Feat/>
   </div>
 </template>

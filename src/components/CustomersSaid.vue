@@ -1,5 +1,5 @@
 <template>
-  <div class="container-0 py-5" style="background-color:#666699;">
+  <div class="container-0 py-5 mb-5" style="background-color:#666699;">
    <h3 class="text-center text-white fsadd">顧客回饋</h3>
    <div class="container">
      <div class="swiper" id="customer">
