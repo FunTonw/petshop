@@ -1,4 +1,19 @@
 <template>
+  <Loading :active="isLoading"  :is-full-page="true">
+    <div v-if="isLoadingMassege === 'Loading'">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+    <div v-else-if="isLoadingMassege">
+      <div class="card">
+        <div class="card-body text-center fs-1 fw-bold text-secondary m-3">
+            <p><i class="bi bi-check2-square"></i></p>
+            <p>{{ isLoadingMassege }}</p>
+        </div>
+      </div>
+    </div>
+  </Loading>
   <div class="container mt-5" v-if="carts.length > 0">
     <h2>購物車</h2>
     <div class="mt-5">
@@ -42,7 +57,15 @@
                 <button class="border-0 rounded-start fs-4 qty-button-disabled" v-else disabled>
                   <i class="bi bi-dash"></i>
                 </button>
-                <span class="px-5">{{ item.qty }}</span>
+                <span class="px-5">
+                <div
+                class="spinner-border text-danger spinner-border-sm "
+                role="status"
+                v-if="this.status.loadingItem === item.id">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+                <span v-else> {{ item.qty }}</span>
+                </span>
                 <button @click.prevent="cartsCount(item, 'add')"
                 class="border-0 rounded-end fs-4 qty-button">
                   <i class="bi bi-plus"></i>
@@ -103,6 +126,11 @@ export default {
       originTotal: 0,
       total: 0,
       coupon_code: '',
+      status: {
+        loadingItem: '',
+      },
+      isLoading: false,
+      isLoadingMassege: '',
     };
   },
   methods: {
@@ -113,12 +141,13 @@ export default {
           this.carts = res.data.data.carts;
           this.originTotal = res.data.data.total;
           this.total = res.data.data.final_total;
-          console.log(res.data.data.carts);
+          this.isLoadingMassege = 'Loading';
         });
     },
     cartsCount(item, use) {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart/${item.id}`;
       let cartQty = item.qty;
+      this.status.loadingItem = item.id;
       if (use === 'add') {
         cartQty += 1;
       } else {
@@ -130,15 +159,17 @@ export default {
       };
       this.$http.put(api, { data: cartData })
         .then((res) => {
-          console.log(res.data);
-          this.getCarts();
+          if (res.data.success) {
+            this.status.loadingItem = '';
+            this.getCarts();
+          }
         });
     },
     delCart(item) {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart/${item.id}`;
       this.$http.delete(api)
         .then((res) => {
-          console.log(res);
+          this.isLoadingMassege = res.data.message;
           this.getCarts();
         });
     },
@@ -148,9 +179,23 @@ export default {
         code: this.coupon_code,
       };
       this.$http.post(api, { data: coupon })
-        .then(() => {
-          this.getCarts();
+        .then((res) => {
+          if (res.data.success) {
+            console.log(res.data);
+            this.isLoadingMassege = res.data.message;
+            this.getCarts();
+          }
         });
+    },
+  },
+  watch: {
+    isLoadingMassege() {
+      if (this.isLoadingMassege) {
+        this.isLoading = true;
+        setTimeout(() => { this.isLoadingMassege = ''; this.isLoading = false; }, 1500);
+      } else if (!this.isLoadingMassege) {
+        this.isLoading = false;
+      }
     },
   },
   created() {

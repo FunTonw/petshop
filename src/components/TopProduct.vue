@@ -1,4 +1,19 @@
 <template>
+  <Loading :active="isLoading"  :is-full-page="true">
+    <div v-if="isLoadingMassege === 'Loading'">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+    <div v-else-if="isLoadingMassege">
+      <div class="card">
+        <div class="card-body text-center fs-1 fw-bold text-secondary m-3">
+            <p><i class="bi bi-check2-square"></i></p>
+            <p>{{ isLoadingMassege }}</p>
+        </div>
+      </div>
+    </div>
+  </Loading>
   <div class="container">
       <h2>推薦商品</h2>
     <ul class="d-flex justify-content-center fs-5 category-list text-decoration-none p-0 mt-4">
@@ -63,13 +78,15 @@
                     </div>
                     <div>
                       <button class="cart-btn btn fs-6 p-0 px-3" @click="addCart(item)">
-                        <i class="bi bi-cart-plus"></i>
-                        <span>Add</span>
                         <div
                         class="spinner-border text-danger spinner-border-sm"
                         role="status"
                         v-if="this.status.loadingItem === item.id">
                           <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <div v-else>
+                        <i class="bi bi-cart-plus"></i>
+                        <span>Add</span>
                         </div>
                       </button>
                     </div>
@@ -190,6 +207,8 @@ export default {
       status: {
         loadingItem: '',
       },
+      isLoading: false,
+      isLoadingMassege: '',
     };
   },
   methods: {
@@ -198,6 +217,7 @@ export default {
       this.$http.get(api)
         .then((res) => {
           if (res.data.success) {
+            this.isLoadingMassege = 'Loading';
             this.listItems = res.data.products;
             this.listCategory = this.listItems;
           }
@@ -224,6 +244,7 @@ export default {
         .then((res) => {
           if (res.data.success) {
             this.status.loadingItem = '';
+            this.isLoadingMassege = res.data.message;
             this.getCart();
           }
         });
@@ -245,6 +266,12 @@ export default {
   watch: {
     cartCount() {
       this.$bus.$emit('getmitt', this.cartCount);
+    },
+    isLoadingMassege() {
+      if (this.isLoadingMassege) {
+        this.isLoading = true;
+        setTimeout(() => { this.isLoading = false; this.isLoadingMassege = ''; }, 1500);
+      }
     },
   },
   mounted() {

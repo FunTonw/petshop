@@ -1,4 +1,19 @@
 <template>
+  <Loading :active="isLoading"  :is-full-page="true">
+    <div v-if="isLoadingMassege === 'Loading'">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+    <div v-else>
+      <div class="card">
+        <div class="card-body text-center fs-1 fw-bold text-secondary m-3">
+            <p><i class="bi bi-check2-square"></i></p>
+            <p>{{ isLoadingMassege }}</p>
+        </div>
+      </div>
+    </div>
+  </Loading>
   <div class="container mt-3">
       <div class="row">
           <div class="col-12 col-md-3">
@@ -43,7 +58,9 @@
                     <a href="#" @click.prevent="goProduct(item.id)"
                     style="text-decoration:none; color:#000">
                       <div class="card h-100">
-                          <img :src="item.imageUrl" class="card-img-top madel h-100" alt="">
+                        <div class="card-img-top cart-img">
+                          <img :src="item.imageUrl" class="w-100" alt="">
+                        </div>
                         <div class="card-body p-3">
                           <div class="d-flex align-items-center card-title">
                             <b class="user-cart-title">{{ item.title }}</b>
@@ -145,6 +162,18 @@
   </div>
 </template>
 <style>
+  .cart-img {
+    height: 100%;
+    overflow: hidden;
+  }
+  .cart-img img{
+    height: 100%;
+    width: 100%;
+  }
+  .card:hover .cart-img > img{
+    transform: scale(110%);
+    transition: all .2s ease-in-out;
+  }
   .origin-price {
       font-size: 14px;
       color: cadetblue;
@@ -243,12 +272,15 @@ export default {
         loadingItem: '',
       },
       coupon_code: '',
+      isLoading: false,
+      isLoadingMassege: '',
     };
   },
   methods: {
     getProduct() {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/products`;
       this.$http.get(api).then((res) => {
+        this.isLoadingMassege = 'Loading';
         this.products = res.data.products;
         this.listProducts = this.products;
       });
@@ -258,7 +290,6 @@ export default {
       this.$http.get(api)
         .then((res) => {
           this.cartProducts = res.data.data;
-          console.log(this.cartProducts);
         });
     },
     goProduct(id) {
@@ -290,7 +321,8 @@ export default {
         qty: count,
       };
       this.$http[cartMethods](api, { data: cart })
-        .then(() => {
+        .then((res) => {
+          this.isLoadingMassege = res.data.message;
           this.status.loadingItem = '';
           this.getCart();
         });
@@ -299,6 +331,7 @@ export default {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart/${id}`;
       this.$http.delete(api)
         .then((res) => {
+          this.isLoadingMassege = res.data.message;
           this.getCart();
           console.log(res.data);
         });
@@ -324,6 +357,14 @@ export default {
         cartQty += ele.qty;
       });
       this.$bus.$emit('getmitt', cartQty);
+    },
+    isLoadingMassege() {
+      if (this.isLoadingMassege) {
+        this.isLoading = true;
+        setTimeout(() => { this.isLoading = false; this.isLoadingMassege = ''; }, 1000);
+      } else if (!this.isLoadingMassege) {
+        this.isLoading = false;
+      }
     },
   },
   created() {

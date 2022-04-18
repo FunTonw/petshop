@@ -1,4 +1,20 @@
 <template>
+  <!-- <Loading :active="isLoading" /> -->
+  <Loading :active="isLoading"  :is-full-page="true">
+    <div v-if="isLoadingMassege === 'Loading'">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+    <div v-else>
+      <div class="card">
+        <div class="card-body text-center fs-1 fw-bold text-secondary m-3">
+            <p><i class="bi bi-check2-square"></i></p>
+            <p>{{ isLoadingMassege }}</p>
+        </div>
+      </div>
+    </div>
+  </Loading>
   <nav aria-label="breadcrumb" class="m-3 mb-0">
   </nav>
   <div class="container">
@@ -68,7 +84,9 @@
             v-if="this.status.loadingItem === item.id">
               <span class="visually-hidden">Loading...</span>
             </div>
-          <i class="bi bi-cart4 me-2"></i>加入購物車
+            <div v-else>
+              <i class="bi bi-cart4 me-2"></i>加入購物車
+            </div>
         </button>
         </div>
       </div>
@@ -137,6 +155,8 @@ export default {
       status: {
         loadingItem: '',
       },
+      isLoading: false,
+      isLoadingMassege: '',
     };
   },
   methods: {
@@ -145,6 +165,7 @@ export default {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/product/${id}`;
       axios.get(api)
         .then((res) => {
+          this.isLoadingMassege = 'Loading';
           this.item = res.data.product;
         });
     },
@@ -157,8 +178,12 @@ export default {
       };
       this.$http.post(api, { data: cart })
         .then((res) => {
-          this.status.loadingItem = '';
-          console.log(res.data);
+          if (res.data.success) {
+            this.status.loadingItem = '';
+            this.isLoadingMassege = res.data.message;
+          } else {
+            console.log(res.data);
+          }
         });
     },
     qtySelete(plusDash) {
@@ -179,6 +204,14 @@ export default {
           ele.children[0].classList.remove('active');
         }
       });
+    },
+  },
+  watch: {
+    isLoadingMassege() {
+      if (this.isLoadingMassege) {
+        this.isLoading = true;
+        setTimeout(() => { this.isLoading = false; this.isLoadingMassege = ''; }, 1500);
+      }
     },
   },
   created() {
