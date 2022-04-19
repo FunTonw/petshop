@@ -29,7 +29,7 @@
           </div>
         </form>
       </div>
-      <Loading :active="isLoading"></Loading>
+      <Loading :active="user.isLoading"></Loading>
 </template>
 
 <style lang="scss">
