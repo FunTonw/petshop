@@ -59,15 +59,17 @@ export default {
   methods: {
     signIn() {
       const api = `${process.env.VUE_APP_API}admin/signin`;
-      this.isLoading = true;
+      this.user.isLoading = true;
       this.$http.post(api, this.user)
         .then((res) => {
-          this.isLoading = false;
+          this.user.isLoading = false;
           if (res.data.success) {
             const { token, expired } = res.data;
             document.cookie = `hexToken=${token};
             expired=${new Date(expired)}`;
             this.$router.push('/deshboard/products');
+          } else {
+            console.log(res.data);
           }
         });
     },
