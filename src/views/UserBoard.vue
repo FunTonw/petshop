@@ -44,6 +44,28 @@ import UserNavbar from '../components/UserNavbar.vue';
 import Foot from '../components/Foot.vue';
 
 export default {
+  data() {
+    return {
+      favoriteItem: [],
+    };
+  },
+  provide() {
+    return {
+      // eslint-disable-next-line no-undef
+      favoriteItems: this.favoriteItem,
+    };
+  },
+  mounted() {
+    this.$bus.$on('add-favotite', (item) => {
+      const index = this.favoriteItem.findIndex((x) => x.id === item.id);
+      if (index === -1) {
+        this.favoriteItem.push(item);
+      } else {
+        this.favoriteItem.splice(index, 1);
+      }
+      console.log(this.favoriteItem);
+    });
+  },
   components: {
     Header,
     UserNavbar,

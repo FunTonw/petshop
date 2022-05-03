@@ -37,7 +37,7 @@
         <h3 class="fw-bold">{{ item.title }}</h3>
         <div class="text-secondary">
           <p>產品類別：{{ item.category }}</p>
-          <p>{{ item.content }}</p>
+          <!-- <pre>{{ item.content }}</pre> -->
         </div>
         <div>
           <span class="fs-4 me-2">NT:${{item.price}}</span>
@@ -46,14 +46,7 @@
           </span>
         </div>
         <hr>
-        <div>
-          <ul class="text-secondary">
-            <li style="list-style-type:disc;">蛋奶素</li>
-            <li style="list-style-type:disc;">送禮</li>
-            <li style="list-style-type:disc;">生日蛋糕</li>
-            <li style="list-style-type:disc;">派對慶典</li>
-          </ul>
-        </div>
+        <pre class="text-secondary">{{ item.content }}</pre>
       </div>
       <!-- 按鈕 -->
       <div class="row">
@@ -110,11 +103,11 @@
           </a>
         </li>
       </ul>
-      <div class="mt-3 fw-bolder lh-sm text-secondary" v-if="decorationSwitch === 'introduction'">
+      <div class="mt-3 fw-bolder text-secondary" v-if="decorationSwitch === 'introduction'">
         <p class="text-dark fs-5">產品介紹</p>
         <p>{{item.description}}</p>
-        <p class="text-dark fs-5">成分</p>
-        <p>{{item.content}}</p>
+        <p class="text-dark fs-5">詳細內容</p>
+        <pre>{{item.content}}</pre>
       </div>
       <div class="mt-3 fw-bolder lh-lg text-secondary" v-else>
         <ul class="p-0">
@@ -181,6 +174,7 @@ export default {
           if (res.data.success) {
             this.status.loadingItem = '';
             this.isLoadingMassege = res.data.message;
+            console.log(res.data);
           } else {
             console.log(res.data);
           }

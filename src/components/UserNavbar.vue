@@ -33,6 +33,11 @@
           </ul>
         <ul class="d-flex nav-list m-0">
           <li>
+            <router-link to="/user/favorite">
+              <i class="bi bi-heart-fill fs-4 me-3"></i>
+            </router-link>
+          </li>
+          <li>
             <router-link to="/user/buy">
               <div class="cart-icon">
                 <i class="bi bi-cart4 fs-4 me-3"></i>
@@ -155,6 +160,10 @@ export default {
           });
           this.cartCount = countQty;
         });
+    },
+    // 進入我的最愛, 並改變內容
+    goFavorite() {
+      this.$bus.$emit('changeCategory');
     },
   },
   created() {

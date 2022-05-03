@@ -17,7 +17,7 @@
           lh-1">
             <p>最划算的生日套餐</p>
             <p>限時優惠</p>
-            <button class="btn btn-danger">立即下單</button>
+            <router-link class="btn btn-danger" to="/user/cart" @click.prevent="">立即下單</router-link>
           </div>
         </div>
       </div>

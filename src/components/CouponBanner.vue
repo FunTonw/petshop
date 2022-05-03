@@ -11,8 +11,8 @@
     <div class="cake1 move"></div>
     <div class="cake2"></div>
       <div class="coupon_text">
-      <p>輸入優惠碼即可獲得</p>
-      <p>滿$200 折 $50</p>
+      <p>最後倒數!! 輸入優惠碼</p>
+      <p>即享有九折優惠，趕緊掌握</p>
     </div>
     <span class="
     fs-4 fs-md-6

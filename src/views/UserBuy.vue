@@ -98,6 +98,7 @@
           v-model="coupon_code"
           placeholder="請輸入優惠卷碼">
         </div>
+        <div class="form-text">開幕歡慶優惠碼：ilovecake</div>
         </div>
         <div class="col-md-6 col-12 fw-bold fs-5 text-end">
           <p>總金額 : ${{ $filters.currency(originTotal) }}</p>
