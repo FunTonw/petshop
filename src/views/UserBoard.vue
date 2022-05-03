@@ -51,7 +51,6 @@ export default {
   },
   provide() {
     return {
-      // eslint-disable-next-line no-undef
       favoriteItems: this.favoriteItem,
     };
   },

@@ -1,6 +1,5 @@
 <template>
   <ProductSlide/>
-  <div>123</div>
 </template>
 
 <script>

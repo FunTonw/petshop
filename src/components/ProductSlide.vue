@@ -17,10 +17,6 @@
     </div>
   </Loading>
 <div class="container">
-  <div>
-  <button @click.prevent="changeCategory('favorite')">test</button>
-  <button @click.prevent="changeCategory('All')">testall</button>
-</div>
 <div>
 <div class="swiper" id="productswiper">
   <div class="swiper-wrapper">
@@ -204,8 +200,12 @@ export default {
       isLoadingMassege: '',
     };
   },
+  // injects內容在 UserBoard.vue
+  inject: [
+    'favoriteItems',
+  ],
+  props: ['categoryli'],
   methods: {
-    // 接收所有商品後
     getItems() {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/products/all`;
       this.isGetLoading = true;
@@ -215,6 +215,7 @@ export default {
             console.log(res.data);
             this.isGetLoading = false;
             this.listItems = res.data.products;
+            // 如果頁面是我的最愛,直接導入inject內容
             if (this.$route.path === '/user/favorite') {
               this.listCategory = this.favoriteItems;
             } else {
@@ -222,15 +223,6 @@ export default {
             }
           }
         });
-    },
-    // 這邊使用emit去接 @click
-    // 使用map 使listCategory去接收已加入最愛的陣列商品
-    changeCategory(category) {
-      if (category === 'All') {
-        this.listCategory = this.listItems;
-      } else {
-        this.listCategory = this.listItems.filter((x) => x.category === category);
-      }
     },
     goProduct(id) {
       this.$router.push(`product/${id}`);
@@ -269,7 +261,6 @@ export default {
       this.$bus.$emit('add-favotite', item);
     },
   },
-  inject: ['favoriteItems'],
   // 取得cartsCount數量, mitt回傳至UserNavbar.vue
   watch: {
     cartCount() {
@@ -278,12 +269,15 @@ export default {
     isLoading() {
       setTimeout(() => { this.isLoading = false; }, 1500);
     },
+    categoryli() {
+      if (this.categoryli === 'All') {
+        this.listCategory = this.listItems;
+      } else {
+        this.listCategory = this.listItems.filter((x) => x.category === this.categoryli);
+      }
+    },
   },
   mounted() {
-    // this.$bus.$on('changeCategory', () => {
-    //   console.log(this.favoriteItems);
-    //   this.listCategory = this.favoriteItems;
-    // });
     return new Swiper('#productswiper', {
       modules: [Grid, Navigation, Pagination],
       slidesPerView: 2,

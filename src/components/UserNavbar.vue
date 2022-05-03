@@ -161,10 +161,6 @@ export default {
           this.cartCount = countQty;
         });
     },
-    // 進入我的最愛, 並改變內容
-    goFavorite() {
-      this.$bus.$emit('changeCategory');
-    },
   },
   created() {
     this.getCart();
