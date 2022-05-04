@@ -112,13 +112,37 @@
     </div>
   </div>
   <div class="container" v-else>
-    <div class="d-flex flex-column justify-content-center align-items-center mt-5">
-      <p class="fw-bold fs-4 text-secondary">很抱歉，您的購物車還沒有商品</p>
-      <p class="fw-bold fs-4 text-secondary">趕緊將喜愛商品加入購物車吧</p>
-      <router-link to="/user/cart" class="btn btn-danger">回商品頁</router-link>
+    <div class="
+    d-flex flex-column
+    justify-content-center
+    align-items-center
+    fs-3 fw-bolder
+    text-secondary
+    mt-5 vh-100">
+      <p class="fw-bolder">很抱歉，您的購物車還沒有商品</p>
+      <p>趕緊將喜愛商品加入購物車吧</p>
+      <router-link to="/user/cart" class="btn btn-danger fs-3">回商品頁</router-link>
+      <p class="icon-hand"><i class="bi bi-hand-index"></i></p>
     </div>
   </div>
 </template>
+
+<style>
+  .icon-hand{
+    animation-duration: 0.2s;
+    animation-name: handmove;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+  }
+  @keyframes handmove {
+    from {
+      transform: translateY(0%);
+    }
+    to {
+      transform: translateY(20%);
+    }
+  }
+</style>
 
 <script>
 

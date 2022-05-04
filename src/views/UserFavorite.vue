@@ -13,10 +13,27 @@
         <router-link to="/user/cart"
         class="btn btn-danger fs-3"
         >商品頁面</router-link>
-        <p><i class="bi bi-hand-index"></i></p>
+        <p class="icon-hand"><i class="bi bi-hand-index"></i></p>
       </div>
   </div>
 </template>
+
+<style>
+  .icon-hand{
+    animation-duration: 0.2s;
+    animation-name: handmove;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+  }
+  @keyframes handmove {
+    from {
+      transform: translateY(0%);
+    }
+    to {
+      transform: translateY(20%);
+    }
+  }
+</style>
 
 <script>
 
