@@ -171,7 +171,6 @@ export default {
       tsetText: '1',
       listItems: [],
       listCategory: [],
-      // 以下先不用理會
       cartCount: 0,
       status: {
         loadingItem: '',

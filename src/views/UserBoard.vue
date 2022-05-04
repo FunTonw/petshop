@@ -79,7 +79,7 @@ export default {
       }
       setTimeout(() => {
         this.isLoading = false;
-      }, 1000);
+      }, 600);
       console.log(this.favoriteItem);
     });
   },
