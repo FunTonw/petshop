@@ -35,36 +35,21 @@
               </button>
               <button class="btn m-1"><i class="bi bi-zoom-in"></i></button>
             </div>
-            <div class="
-            card-title
-            d-flex
-            flex-column flex-lg-row
-            align-items-lg-center
-            justify-content-lg-between
-            m-0 mb-lg-2">
-              <h6 class="m-0" style="font-weight: 600;">{{ item.title }}</h6>
-              <p class="m-0 text-warning fs-6">
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-              </p>
+            <div class="card-title">
+              <h6 class="m-0 fs-5 fw-bold text-center">{{ item.title }}</h6>
             </div>
-            <div class="
-            card-text
-            d-flex
-            flex-column flex-lg-row
-            justify-content-center justify-content-lg-between
-            align-items-center align-items-lg-end">
-              <div class="price d-flex">
+              <div class="
+              d-flex flex-column flex-lg-row
+              justify-content-between
+              align-items-center">
                 <p class="fs-6 m-0 me-1 text-decoration-line-through">
                   ${{ $filters.currency(item.origin_price) }}
                 </p>
-                <p  class="m-0 fw-blod text-danger">${{ $filters.currency(item.price) }}</p>
+                <p class="m-0 fs-4 text-danger"
+                style="font-weight: 700;">${{ $filters.currency(item.price) }}</p>
               </div>
-              <div>
-                <button class="cart-btn btn fs-6 p-0 px-3" @click="addCart(item)">
+             <div>
+                <button class="btn btn-outline-danger fs-6 w-100" @click="addCart(item)">
                   <div
                   class="spinner-border text-danger spinner-border-sm"
                   role="status"
@@ -73,11 +58,10 @@
                   </div>
                   <div v-else>
                   <i class="bi bi-cart-plus"></i>
-                  <span>Add</span>
+                  <span>加入購物車</span>
                   </div>
                 </button>
               </div>
-            </div>
           </div>
       </div>
     </div>
@@ -133,6 +117,7 @@ h2::before{
  .card-link::before{
    content: "";
    left: 0;
+   top: 0;
    height: 100%;
    width: 100%;
    background-color: rgba(255, 255, 255, 0.3);
@@ -142,18 +127,6 @@ h2::before{
  .card:hover .card-link::before{
    opacity: 1;
  }
- .card:hover .button-item{
-   transform:translate(-50%,-50%);
-   opacity: 1;
-   transition: all 0.3s ease-out;
- }
- .button-item{
-   position: absolute;
-   top: 50%;
-   left: 50%;
-   transform:translate(-50%,-90%);
-   opacity: 0;
- }
  .button-item button{
     background-color:#666699;
     color: #FFF;
@@ -162,6 +135,7 @@ h2::before{
    background-color:#FF9999;
    color: #666699;
  }
+ /* 手機裝置該有的 */
  @media screen and (max-width: 835px){
     .button-item{
       position: static;
@@ -169,13 +143,20 @@ h2::before{
       opacity: 1;
     }
  }
- .cart-btn{
-   background-color:#666699;
-   color: #FFF;
- }
- .cart-btn:hover{
-   background-color:#FF9999;
-   color: #666699;
+ /* 手機裝置不該有的 */
+@media screen and (min-width: 835px){
+    .button-item{
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform:translate(-50%,-100%);
+      opacity: 0;
+    }
+    .card:hover .button-item{
+      transform:translate(-50%,-80%);
+      opacity: 1;
+      transition: all 0.3s ease-out;
+    }
  }
 </style>
 

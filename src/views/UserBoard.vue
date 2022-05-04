@@ -1,4 +1,14 @@
 <template>
+    <Loading :active="isLoading"  :is-full-page="true">
+    <div>
+      <div class="card">
+        <div class="card-body text-center fs-1 fw-bold text-secondary m-3">
+            <p><i class="bi bi-check2-square"></i></p>
+            <p>{{ isLoadingMassege }}</p>
+        </div>
+      </div>
+    </div>
+  </Loading>
 <div class="bg">
 <Header/>
 <UserNavbar/>
@@ -47,6 +57,8 @@ export default {
   data() {
     return {
       favoriteItem: [],
+      isLoading: false,
+      isLoadingMassege: '',
     };
   },
   provide() {
@@ -57,11 +69,17 @@ export default {
   mounted() {
     this.$bus.$on('add-favotite', (item) => {
       const index = this.favoriteItem.findIndex((x) => x.id === item.id);
+      this.isLoading = true;
       if (index === -1) {
+        this.isLoadingMassege = '加入最愛';
         this.favoriteItem.push(item);
       } else {
+        this.isLoadingMassege = '移除最愛';
         this.favoriteItem.splice(index, 1);
       }
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 1000);
       console.log(this.favoriteItem);
     });
   },

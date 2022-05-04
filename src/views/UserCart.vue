@@ -57,43 +57,49 @@
           <div class="col-12 col-md-9">
               <div class="row">
                   <div class="col-6 col-md-4 mb-2"  v-for="item in listProducts" :key="item.id">
-                    <a href="#" @click.prevent="goProduct(item.id)"
-                    style="text-decoration:none; color:#000">
-                      <div class="card h-100">
-                        <div class="card-img-top cart-img">
-                          <img :src="item.imageUrl" class="w-100" alt="">
-                        </div>
-                        <div class="card-body p-3">
-                          <div class="d-flex align-items-center card-title">
-                            <b class="user-cart-title">{{ item.title }}</b>
+                    <div class="card h-100">
+                          <a href="#"
+                          class="card-link"
+                          @click.prevent="goProduct(item.id)">
+                            <img class="card-img-top" :src="item.imageUrl" :alt="item.title">
+                          </a>
+                        <div class="card-body">
+                          <div class="button-item">
+                            <button class="btn m-1" @click.prevent="addFavorite(item)">
+                              <i class="bi bi-heart-fill"></i>
+                            </button>
+                            <button class="btn m-1"><i class="bi bi-zoom-in"></i></button>
                           </div>
-                          <div class="d-flex justify-content-between align-items-center">
-                            <p class="origin-price fw-light mb-0">
-                              ${{ $filters.currency(item.origin_price) }}
-                            </p>
-                            <p class="price fw-bold mb-0 fs-5">
-                              ${{ $filters.currency(item.price) }}
-                            </p>
+                          <div class="card-title">
+                            <h6 class="m-0 fs-5 fw-bold text-center">{{ item.title }}</h6>
                           </div>
-                            <button
-                            class="btn btn-outline-danger py-1 w-100 mt-2"
-                            type="button"
-                            @click.prevent.stop="addCart(item.id, true)"
-                            :disabled="this.status.loadingItem === item.id">
-                              <div
-                              class="spinner-border text-danger spinner-border-sm "
-                              role="status"
-                              v-if="this.status.loadingItem === item.id">
-                                <span class="visually-hidden">Loading...</span>
-                              </div>
-                              <span v-else>
-                                <i class="bi bi-cart4"></i>
+                            <div class="
+                            d-flex flex-column flex-lg-row
+                            justify-content-between
+                            align-items-center">
+                              <p class="fs-6 m-0 me-1 text-decoration-line-through">
+                                ${{ $filters.currency(item.origin_price) }}
+                              </p>
+                              <p class="m-0 fs-4 text-danger"
+                              style="font-weight: 700;">${{ $filters.currency(item.price) }}</p>
+                            </div>
+                           <div>
+                              <button class="btn btn-outline-danger fs-6 w-100"
+                              @click="addCart(item.id, true)">
+                                <div
+                                class="spinner-border text-danger spinner-border-sm"
+                                role="status"
+                                v-if="this.status.loadingItem === item.id">
+                                  <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <div v-else>
+                                <i class="bi bi-cart-plus"></i>
                                 <span>加入購物車</span>
-                              </span>
-                             </button>
+                                </div>
+                              </button>
+                            </div>
                         </div>
-                      </div>
-                    </a>
+                    </div>
                   </div>
               </div>
           </div>
@@ -164,18 +170,58 @@
   </div>
 </template>
 <style>
-  .cart-img {
-    height: 100%;
-    overflow: hidden;
-  }
-  .cart-img img{
-    height: 100%;
-    width: 100%;
-  }
-  .card:hover .cart-img > img{
-    transform: scale(110%);
-    transition: all .2s ease-in-out;
-  }
+.card{
+   background-color:aliceblue;
+ }
+ .card-link{
+   text-decoration: none;
+   color: #000;
+   position: relative;
+ }
+ .card-link::before{
+   content: "";
+   left: 0;
+   top: 0;
+   height: 100%;
+   width: 100%;
+   background-color: rgba(255, 255, 255, 0.3);
+   opacity: 0;
+   position: absolute;
+ }
+ .card:hover .card-link::before{
+   opacity: 1;
+ }
+ .button-item button{
+    background-color:#666699;
+    color: #FFF;
+ }
+  .button-item button:hover{
+   background-color:#FF9999;
+   color: #666699;
+ }
+ /* 手機裝置該有的 */
+ @media screen and (max-width: 835px){
+    .button-item{
+      position: static;
+      transform: none;
+      opacity: 1;
+    }
+ }
+ /* 手機裝置不該有的 */
+@media screen and (min-width: 835px){
+    .button-item{
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform:translate(-50%,-100%);
+      opacity: 0;
+    }
+    .card:hover .button-item{
+      transform:translate(-50%,-80%);
+      opacity: 1;
+      transition: all 0.3s ease-out;
+    }
+ }
   .origin-price {
       font-size: 14px;
       color: cadetblue;
@@ -356,6 +402,10 @@ export default {
           this.isLoadingMassege = res.data.message;
           this.getCart();
         });
+    },
+    // 取得需加入最愛的item, mitt回傳UserNavbar.vue
+    addFavorite(item) {
+      this.$bus.$emit('add-favotite', item);
     },
   },
   watch: {
