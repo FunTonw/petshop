@@ -16,6 +16,13 @@
       </div>
     </div>
   </Loading>
+  <VueEasyLightbox
+  escDisabled
+  moveDisabled
+  :visible="lightbox.visible"
+  @hide="handleHide"
+  :imgs="lightbox.imgs"
+  ></VueEasyLightbox>
   <div class="container mt-3">
       <div class="row">
           <div class="col-12 col-md-3">
@@ -64,11 +71,13 @@
                             <img class="card-img-top" :src="item.imageUrl" :alt="item.title">
                           </a>
                         <div class="card-body">
-                          <div class="button-item">
+                          <div class="button-item d-flex justify-content-center">
                             <button class="btn m-1" @click.prevent="addFavorite(item)">
                               <i class="bi bi-heart-fill"></i>
                             </button>
-                            <button class="btn m-1"><i class="bi bi-zoom-in"></i></button>
+                            <button class="btn m-1">
+                              <i class="bi bi-zoom-in" @click.prevent="showImg(item.imageUrl)"></i>
+                            </button>
                           </div>
                           <div class="card-title">
                             <h6 class="m-0 fs-5 fw-bold text-center">{{ item.title }}</h6>
@@ -307,7 +316,12 @@
 </style>
 
 <script>
+import VueEasyLightbox from 'vue-easy-lightbox';
+
 export default {
+  components: [
+    VueEasyLightbox,
+  ],
   data() {
     return {
       listcetegory: 'all',
@@ -323,6 +337,10 @@ export default {
       isGetLoading: false,
       isLoading: false,
       isLoadingMassege: '',
+      lightbox: {
+        imgs: '',
+        visible: false,
+      },
     };
   },
   methods: {
@@ -406,6 +424,13 @@ export default {
     // 取得需加入最愛的item, mitt回傳UserNavbar.vue
     addFavorite(item) {
       this.$bus.$emit('add-favotite', item);
+    },
+    showImg(img) {
+      this.lightbox.imgs = img;
+      this.lightbox.visible = true;
+    },
+    handleHide() {
+      this.lightbox.visible = false;
     },
   },
   watch: {

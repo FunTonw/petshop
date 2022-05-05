@@ -16,7 +16,22 @@
       </div>
     </div>
   </Loading>
+  <VueEasyLightbox
+  escDisabled
+  moveDisabled
+  :visible="lightbox.visible"
+  @hide="handleHide"
+  :imgs="lightbox.imgs"
+  ></VueEasyLightbox>
 <div class="container">
+  <div class="mb-2 d-flex justify-content-center">
+   <button type="button" class="me-2 product-button-prev btn btn-outline-secondary">
+     <i class="bi bi-caret-left-fill"></i>
+   </button>
+   <button type="button" class="product-button-next btn btn-outline-secondary">
+     <i class="bi bi-caret-right-fill"></i>
+   </button>
+  </div>
 <div>
 <div class="swiper" id="productswiper">
   <div class="swiper-wrapper">
@@ -33,7 +48,9 @@
               <button class="btn m-1" @click.prevent="addFavorite(item)">
                 <i class="bi bi-heart-fill"></i>
               </button>
-              <button class="btn m-1"><i class="bi bi-zoom-in"></i></button>
+              <button class="btn m-1" @click.prevent="showImg(item.imageUrl)">
+                <i class="bi bi-zoom-in"></i>
+              </button>
             </div>
             <div class="card-title">
               <h6 class="m-0 fs-5 fw-bold text-center">{{ item.title }}</h6>
@@ -161,11 +178,15 @@ h2::before{
 </style>
 
 <script>
+import VueEasyLightbox from 'vue-easy-lightbox';
 import Swiper, { Grid, Navigation, Pagination } from 'swiper';
 import 'swiper/swiper-bundle.min.css';
 import 'swiper/swiper.min.css';
 
 export default {
+  components: [
+    VueEasyLightbox,
+  ],
   data() {
     return {
       tsetText: '1',
@@ -178,6 +199,10 @@ export default {
       isGetLoading: false,
       isLoading: false,
       isLoadingMassege: '',
+      lightbox: {
+        imgs: '',
+        visible: false,
+      },
     };
   },
   // injects內容在 UserBoard.vue
@@ -240,6 +265,13 @@ export default {
     addFavorite(item) {
       this.$bus.$emit('add-favotite', item);
     },
+    showImg(img) {
+      this.lightbox.imgs = img;
+      this.lightbox.visible = true;
+    },
+    handleHide() {
+      this.lightbox.visible = false;
+    },
   },
   // 取得cartsCount數量, mitt回傳至UserNavbar.vue
   watch: {
@@ -263,6 +295,10 @@ export default {
       slidesPerView: 2,
       spaceBetween: 30,
       observer: true,
+      navigation: {
+        nextEl: '.product-button-next',
+        prevEl: '.product-button-prev',
+      },
       grid: {
         rows: 2,
         fill: 'row',

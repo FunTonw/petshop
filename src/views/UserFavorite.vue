@@ -1,5 +1,7 @@
 <template>
-  <ProductSlide/>
+  <dir class="mt-3">
+    <ProductSlide/>
+  </dir>
   <div class="container" v-if="favoriteItems.length === 0">
       <div class="
       vh-100

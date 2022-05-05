@@ -16,7 +16,8 @@
       </li>
     </ul>
     <div>
-      <ProductSlide :categoryli='category'/>
+      <ProductSlide :categoryli='category'>
+      </ProductSlide>
     </div>
   </div>
 </template>
