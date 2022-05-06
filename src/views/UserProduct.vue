@@ -118,7 +118,7 @@
     </div>
     <div class="col-12 mt-5">
       <h3 class="text-center">你可能會喜歡</h3>
-      <ProductSlide :categoryli='item.category'/>
+      <ProductSlide :categoryli='item.category' :itemid='item.id'/>
     </div>
   </div>
   </div>
@@ -210,7 +210,7 @@ export default {
     isLoadingMassege() {
       if (this.isLoadingMassege) {
         this.isLoading = true;
-        setTimeout(() => { this.isLoading = false; this.isLoadingMassege = ''; }, 1500);
+        setTimeout(() => { this.isLoading = false; this.isLoadingMassege = ''; }, 1000);
       }
     },
   },

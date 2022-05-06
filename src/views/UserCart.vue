@@ -345,7 +345,7 @@ export default {
   },
   methods: {
     getProduct() {
-      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/products`;
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/products/all`;
       this.isGetLoading = true;
       this.$http.get(api).then((res) => {
         this.isGetLoading = false;

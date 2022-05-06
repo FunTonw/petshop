@@ -211,6 +211,7 @@ export default {
   ],
   props: [
     'categoryli',
+    'itemid',
   ],
   methods: {
     getItems() {
@@ -287,8 +288,16 @@ export default {
       if (this.categoryli === 'All') {
         this.listCategory = this.listItems;
       } else {
-        this.listCategory = this.listItems.filter((x) => x.category === this.categoryli);
+        this.listCategory = this.listItems.filter(
+          (x) => x.category === this.categoryli,
+        );
       }
+    },
+    // 在UserProduct '你可能喜歡' 排除自身id的Slide
+    itemid() {
+      this.listCategory = this.listItems.filter(
+        (x) => x.category === this.categoryli && x.id !== this.itemid,
+      );
     },
   },
   mounted() {
