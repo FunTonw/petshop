@@ -37,7 +37,6 @@
         <h3 class="fw-bold">{{ item.title }}</h3>
         <div class="text-secondary">
           <p>產品類別：{{ item.category }}</p>
-          <!-- <pre>{{ item.content }}</pre> -->
         </div>
         <div>
           <span class="fs-4 me-2">NT:${{item.price}}</span>
@@ -117,6 +116,10 @@
         </ul>
       </div>
     </div>
+    <div class="col-12 mt-5">
+      <h3 class="text-center">你可能會喜歡</h3>
+      <ProductSlide :categoryli='item.category'/>
+    </div>
   </div>
   </div>
 </template>
@@ -138,8 +141,12 @@
 </style>
 <script>
 import axios from 'axios';
+import ProductSlide from '../components/ProductSlide.vue';
 
 export default {
+  components: {
+    ProductSlide,
+  },
   data() {
     return {
       decorationSwitch: 'introduction',
@@ -153,8 +160,7 @@ export default {
     };
   },
   methods: {
-    getProduct() {
-      const id = this.$route.params.productId;
+    getProduct(id = this.$route.params.productId) {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/product/${id}`;
       axios.get(api)
         .then((res) => {
@@ -207,6 +213,11 @@ export default {
         setTimeout(() => { this.isLoading = false; this.isLoadingMassege = ''; }, 1500);
       }
     },
+  },
+  mounted() {
+    this.$bus.$on('createpage', (id) => {
+      this.getProduct(id);
+    });
   },
   created() {
     this.getProduct();

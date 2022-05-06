@@ -209,7 +209,9 @@ export default {
   inject: [
     'favoriteItems',
   ],
-  props: ['categoryli'],
+  props: [
+    'categoryli',
+  ],
   methods: {
     getItems() {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/products/all`;
@@ -217,20 +219,20 @@ export default {
       this.$http.get(api)
         .then((res) => {
           if (res.data.success) {
-            console.log(res.data);
             this.isGetLoading = false;
             this.listItems = res.data.products;
             // 如果頁面是我的最愛,直接導入inject內容
             if (this.$route.path === '/user/favorite') {
               this.listCategory = this.favoriteItems;
-            } else {
+            } else if (this.$route.path === '/user/home') {
               this.listCategory = this.listItems;
             }
           }
         });
     },
     goProduct(id) {
-      this.$router.push(`product/${id}`);
+      this.$bus.$emit('createpage', id);
+      this.$router.push(`/user/product/${id}`);
     },
     addCart(item) {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`;
@@ -278,9 +280,9 @@ export default {
     cartCount() {
       this.$bus.$emit('getmitt', this.cartCount);
     },
-    isLoading() {
-      setTimeout(() => { this.isLoading = false; }, 1500);
-    },
+    // isLoading() {
+    //   setTimeout(() => { this.isLoading = false; }, 1500);
+    // },
     categoryli() {
       if (this.categoryli === 'All') {
         this.listCategory = this.listItems;
