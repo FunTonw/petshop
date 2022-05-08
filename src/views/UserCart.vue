@@ -64,51 +64,53 @@
           <div class="col-12 col-md-9">
               <div class="row">
                   <div class="col-6 col-md-4 mb-2"  v-for="item in listProducts" :key="item.id">
-                    <div class="card h-100">
-                          <a href="#"
-                          class="card-link"
-                          @click.prevent="goProduct(item.id)">
-                            <img class="card-img-top" :src="item.imageUrl" :alt="item.title">
+                      <div class="card h-100">
+                         <a href="#"
+                         class="card-link h-100"
+                         @click.prevent="goProduct(item.id)">
+                            <img class="cart-img w-100"
+                            :src="item.imageUrl" :alt="item.title">
                           </a>
-                        <div class="card-body">
-                          <div class="button-item d-flex justify-content-center">
-                            <button class="btn m-1" @click.prevent="addFavorite(item)">
-                              <i class="bi bi-heart-fill"></i>
-                            </button>
-                            <button class="btn m-1">
-                              <i class="bi bi-zoom-in" @click.prevent="showImg(item.imageUrl)"></i>
-                            </button>
-                          </div>
-                          <div class="card-title">
-                            <h6 class="m-0 fs-5 fw-bold text-center">{{ item.title }}</h6>
-                          </div>
-                            <div class="
-                            d-flex flex-column flex-lg-row
-                            justify-content-between
-                            align-items-center">
-                              <p class="fs-6 m-0 me-1 text-decoration-line-through">
-                                ${{ $filters.currency(item.origin_price) }}
-                              </p>
-                              <p class="m-0 fs-4 text-danger"
-                              style="font-weight: 700;">${{ $filters.currency(item.price) }}</p>
-                            </div>
-                           <div>
-                              <button class="btn btn-outline-danger fs-6 w-100"
-                              @click="addCart(item.id, true)">
-                                <div
-                                class="spinner-border text-danger spinner-border-sm"
-                                role="status"
-                                v-if="this.status.loadingItem === item.id">
-                                  <span class="visually-hidden">Loading...</span>
-                                </div>
-                                <div v-else>
-                                <i class="bi bi-cart-plus"></i>
-                                <span>加入購物車</span>
-                                </div>
+                          <div class="card-body">
+                            <div class="button-item d-flex justify-content-center">
+                              <button class="btn m-1" @click.stop.prevent="addFavorite(item)">
+                                <i class="bi bi-heart-fill"></i>
+                              </button>
+                              <button class="btn m-1">
+                                <i class="bi bi-zoom-in"
+                                @click.stop.prevent="showImg(item.imageUrl)"></i>
                               </button>
                             </div>
-                        </div>
-                    </div>
+                            <div class="card-title">
+                              <h6 class="m-0 fs-5 fw-bold text-center">{{ item.title }}</h6>
+                            </div>
+                              <div class="
+                              d-flex flex-column flex-lg-row
+                              justify-content-between
+                              align-items-center">
+                                <p class="fs-6 m-0 me-1 text-decoration-line-through">
+                                  ${{ $filters.currency(item.origin_price) }}
+                                </p>
+                                <p class="m-0 fs-4 text-danger"
+                                style="font-weight: 700;">${{ $filters.currency(item.price) }}</p>
+                              </div>
+                             <div>
+                                <button class="btn btn-outline-danger fs-6 w-100"
+                                @click="addCart(item.id, true)">
+                                  <div
+                                  class="spinner-border text-danger spinner-border-sm"
+                                  role="status"
+                                  v-if="this.status.loadingItem === item.id">
+                                    <span class="visually-hidden">Loading...</span>
+                                  </div>
+                                  <div v-else>
+                                  <i class="bi bi-cart-plus"></i>
+                                  <span>加入購物車</span>
+                                  </div>
+                                </button>
+                              </div>
+                          </div>
+                      </div>
                   </div>
               </div>
           </div>
@@ -186,6 +188,7 @@
    text-decoration: none;
    color: #000;
    position: relative;
+     overflow: hidden;
  }
  .card-link::before{
    content: "";
@@ -194,11 +197,14 @@
    height: 100%;
    width: 100%;
    background-color: rgba(255, 255, 255, 0.3);
-   opacity: 0;
+   opacity: 1;
    position: absolute;
  }
- .card:hover .card-link::before{
+ .card-link:hover::before{
    opacity: 1;
+ }
+ .cart-img{
+  transform: scale(125%);
  }
  .button-item button{
     background-color:#666699;
@@ -207,14 +213,6 @@
   .button-item button:hover{
    background-color:#FF9999;
    color: #666699;
- }
- /* 手機裝置該有的 */
- @media screen and (max-width: 835px){
-    .button-item{
-      position: static;
-      transform: none;
-      opacity: 1;
-    }
  }
  /* 手機裝置不該有的 */
 @media screen and (min-width: 835px){
@@ -261,11 +259,6 @@
   .list > li > a:hover::before{
     width: 100%;
     transition: all .5s;
-  }
-  .user-cart-title{
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
   }
   .cart-list-active{
     background-color: #666699;
